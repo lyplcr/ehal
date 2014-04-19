@@ -8,6 +8,7 @@ void gpio0_irq(uint8_t v) {}
 __attribute__((interrupt(PORT1_VECTOR)))
 void _gpio0_irq_handler(void)
 {
+	uint8_t mask = P1IFG;
 	gpio0_irq(gpio0_read());
-	P1IFG = 0; /* clear all flag */
+	P1IFG &=~mask; /* clear trigger pins. */
 }

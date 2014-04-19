@@ -1,3 +1,5 @@
+#ifndef GPIO0_H
+#define GPIO0_H
 #include <stdint.h>
 #include <core/ehal.h>
 #include <msp430.h>
@@ -51,3 +53,5 @@ static inline void gpio0_set_edge_irq(uint8_t pins, uint8_t rise)
 	P1IE |= pins;
 	bm_apply(P1IES, pins, rise);
 }
+
+#endif /* GPIO0_H */
