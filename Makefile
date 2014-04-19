@@ -65,4 +65,9 @@ help:
 	@echo "archs:"
 	@echo $(shell ls arch)
 
+## config. #####################################################################
+config:
+	@echo "generating default .config file."
+	@cp arch/$(ARCH)/default.config .config
+
 .PHONY: build bin clean $(target-dirs)
