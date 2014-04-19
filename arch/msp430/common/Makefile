@@ -1,1 +1,1 @@
-obj-$(CONFIG_ARCH_CPU0)	:= dev/
+obj-y	:= dev/
