@@ -9,6 +9,9 @@ ifeq ($(MCU),)
 $(error give me a MCU to build for)
 endif
 
+ifeq ($(W),)
+W=3
+endif
 
 # 'make V=1' for verbose (using commands)
 ifeq ($(V),1)

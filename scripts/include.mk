@@ -20,7 +20,7 @@ kmake := @$(MAKE) $(S)
 
 # commands (full log):
 cc_o_c = $(CC) $(CFLAGS) -c $< -o $@
-cc_d_c = $(CC) $(CFLAGS) -MM $< >> $@
+cc_d_c = $(CC) $(CFLAGS) -MM $< > $@
 cc_o_s = $(CC) $(CFLAGS) -c $< -o $@
 cc_elf = $(CC) $(CFLAGS) -o $@ $(target-objs) $(LDLIBS)
 ld_o_o = $(LD) -r -o $@ $(obj-y)
@@ -60,5 +60,5 @@ warning_3	:= $(warning_2) -Wall -pedantic
 
 
 # for local obj flags.
-CFLAGS += $(cflags-y) $(warning_$(W))
+CFLAGS += -Os $(cflags-y) -I. $(warning_$(W))
 LDLIBS += $(ldlibs-y)
