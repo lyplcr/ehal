@@ -29,10 +29,10 @@ cp_hex = $(OBJCOPY) -O ihex $< $@
 
 # very short log (default).
 quiet_cc_o_c = @echo "CC:   $@"; $(cc_o_c)
-quiet_cc_d_c = @echo "GEN:  $@"; $(cc_d_c)
+quiet_cc_d_c =                   $(cc_d_c)
 quiet_cc_o_s = @echo "AS:   $@"; $(cc_o_s)
 quiet_cc_elf = @echo "LD:   $@"; $(cc_elf)
-quiet_ld_o_o = @echo "LD:   $@"; $(ld_o_o)
+quiet_ld_o_o =                   $(ld_o_o)
 quiet_cp_bin = @echo "COPY: $@"; $(cp_bin)
 quiet_cp_hex = @echo "COPY: $@"; $(cp_hex)
 
