@@ -1,5 +1,5 @@
 prefix	:= msp430-
 
-cflags-y	+= -mmcu=$(MCU) -flto -Iarch/$(ARCH)/common/
+cflags-y		+= -mmcu=$(MCU) -flto -Iarch/$(ARCH)/common/
 
-arch-y		:= arch/$(ARCH)/common/
+arch-$(CONFIG_ARCH)	:= arch/$(ARCH)/common/
