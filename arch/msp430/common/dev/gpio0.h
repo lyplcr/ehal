@@ -42,10 +42,26 @@ static inline void gpio0_set_to(uint8_t pins, uint8_t values)
 	bm_apply(P1OUT, pins, values);
 }
 
-static inline void gpio0_set_pupd(uint8_t pins, uint8_t up)
+static inline void gpio0_set_pullup(uint8_t pins)
 {
-	P1REN |= pins; /* pull (up/down) */
-	bm_apply(P1OUT, pins, up);
+	P1REN |= pins;
+	P1OUT |= pins;
+}
+
+static inline void gpio0_clr_pullup(uint8_t pins)
+{
+	P1REN &=~pins;
+}
+
+static inline void gpio0_set_pulldown(uint8_t pins)
+{
+	P1REN |= pins;
+	P1OUT &=~pins;
+}
+
+static inline void gpio0_clr_pulldown(uint8_t pins)
+{
+	P1REN &=~pins;
 }
 
 static inline void gpio0_set_edge_irq(uint8_t pins, uint8_t rise)
