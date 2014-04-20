@@ -29,6 +29,11 @@ static inline void gpio0_set_out(uint8_t pins)
 	DDRB |= pins;
 }
 
+static inline void gpio0_set_dir(uint8_t pins, uint8_t dir)
+{
+	bm_apply(DDRB, pins, dir);
+}
+
 static inline uint8_t gpio0_read(void)
 {
 	return PINB;
@@ -49,15 +54,20 @@ static inline void gpio0_set_to(uint8_t pins, uint8_t values)
 	bm_apply(PORTB, pins, values);
 }
 
-static inline void gpio0_set_pupd(uint8_t pins, uint8_t up)
-{	/* no pull-down in hardware */
-	PORTB |= up;
+static inline void gpio0_set_pullup(uint8_t pins)
+{
+	PORTB |= pins;
+}
+
+static inline void gpio0_clr_pullup(uint8_t pins)
+{
+	PORTB &=~pins;
 }
 
 /* PCMSK0 - Pin Change Mask Register. (mask pin to trigger irq). */
-static inline void gpio0_set_edge_irq(uint8_t pins, uint8_t rise)
+static inline void gpio0_set_edge_irq(uint8_t rise, uint8_t fall)
 {	/* Only option is both edges (could be masked by software). */
-	PCMSK0 |= pins;
+	PCMSK0 |= (rise | fall);
 }
 
 #endif /* GPIO0_H */

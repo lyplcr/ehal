@@ -1,4 +1,4 @@
-ARCH=avr
+ARCH=avr/atmegaX8
 MCU=atmega328p
 
 CONFIG_SRC      	:=y
