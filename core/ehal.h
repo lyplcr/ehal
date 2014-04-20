@@ -18,25 +18,47 @@ enum {
 
 /* devices ================================================================== */
 
+/* cpu ---------------------------------------------------------------------- */
+struct cpu_interface {
+	void    (*ctor)      (void);
+	void    (*dtor)      (void);
+
+	void    (*reset)     (void);
+	void    (*delay_ms)  (uint16_t ms);
+	uint8_t (*boot_cause)(void);
+};
+
+/* gpio---------------------------------------------------------------------- */
+/* some type... depends on the number of pins per port. */
 typedef uint8_t gpio_mask;
 struct gpio_interface {
 	void (*ctor)(void);
 	void (*dtor)(void);
 
-	void (*set_in)      (gpio_mask pins);
-	void (*set_out)     (gpio_mask pins);
-	void (*set_dir)     (gpio_mask pins, gpio_mask in);
+	void (*set_in)       (gpio_mask pins);
+	void (*set_out)      (gpio_mask pins);
+	void (*set_dir)      (gpio_mask pins, gpio_mask in);
 
-	void (*read)        (gpio_mask pins);
-	void (*set)         (gpio_mask pins);
-	void (*clr)         (gpio_mask pins);
-	void (*set_to)      (gpio_mask pins, gpio_mask to);
+	void (*read)         (gpio_mask pins);
+	void (*set)          (gpio_mask pins);
+	void (*clr)          (gpio_mask pins);
+	void (*set_to)       (gpio_mask pins, gpio_mask to);
 
-	void (*set_pullup)  (gpio_mask pins);
-	void (*clr_pullup)  (gpio_mask pins);
+	void (*set_pullup)   (gpio_mask pins);
+	void (*clr_pullup)   (gpio_mask pins);
 
-	void (*set_pulldown)(gpio_mask pins);
-	void (*clr_pulldown)(gpio_mask pins);
+	void (*set_pulldown) (gpio_mask pins);
+	void (*clr_pulldown) (gpio_mask pins);
+
+	void (*set_pushpull) (gpio_mask pins);
+	void (*set_opendrain)(gpio_mask pins);
+};
+
+struct spi_interface {
+	void (*ctor)(uint8_t mode);
+	void (*dtor)(void);
+
+	uint8_t (*rw8)(uint8_t w);
 };
 
 #endif /* EHAL_H */
