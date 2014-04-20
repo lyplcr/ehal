@@ -25,7 +25,7 @@ ifeq ($(V),2)
 	S=
 	print=pretty_
 endif
-# 'make' for quiet (very short description)
+# 'make' defaults to quiet (very short description)
 ifeq ($(V),)
 	Q=@
 	S=-s

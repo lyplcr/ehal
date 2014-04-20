@@ -16,15 +16,28 @@ endif
 
 # The output to the upper layer is a $(builtin-target), thats what we'll build.
 build: $(builtin-target)
+
+       ld_o_o = $(LD) -r -o $@ $(obj-y)
+ quiet_ld_o_o = $(ld_o_o)
+pretty_ld_o_o = @echo "'$@' subtree is done."; $(ld_o_o)
 $(builtin-target): $(obj-y)
 	$($(print)ld_o_o)
 
+       cc_o_c = $(CC) $(CFLAGS) -c $< -o $@
+ quiet_cc_o_c = @echo "CC:   $@"; $(cc_o_c)
+pretty_cc_o_c = @echo "rebuilding '$@' because of '$<'"; $(cc_o_c)
 $(obj)/%.o: $(src)/%.c $(obj)/%.d
 	$($(print)cc_o_c)
 
+       cc_o_s = $(CC) $(CFLAGS) -c $< -o $@
+ quiet_cc_o_s = @echo "AS:   $@"; $(cc_o_s)
+pretty_cc_o_s = @echo "rebuilding '$@' because of '$<'"; $(cc_o_s)
 $(obj)/%.o: $(src)/%.s
 	$($(print)cc_o_s)
 
+       cc_d_c = $(CC) $(CFLAGS) -MM -MT $(@:.d=.o) $< > $@
+ quiet_cc_d_c = $(cc_d_c)
+pretty_cc_d_c = @echo "rebuilding '$@' because of '$<'"; $(cc_d_c)
 $(obj)/%.d: $(src)/%.c
 	$($(print)cc_d_c)
 

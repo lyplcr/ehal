@@ -21,12 +21,24 @@ drivers-$(CONFIG_DRIVERS)	:= drivers/
 target-dirs	:= $(patsubst %/,%,$(src-y) $(arch-y) $(drivers-y))
 target-objs	:= $(patsubst %,$(O)%/built-in.o,$(target-dirs))
 
+       cc_elf = $(CC) $(CFLAGS) -o $@ $(target-objs) $(LDLIBS)
+ quiet_cc_elf = @echo "LD:   $@"; $(cc_elf)
+pretty_cc_elf = @echo "'$@' all done!"; $(cc_elf)
 $(elf): $(target-dirs)
 	$($(print)cc_elf)
+
+       cp_bin = $(OBJCOPY) -O binary $< $@
+ quiet_cp_bin = @echo "COPY: $@"; $(cp_bin)
+pretty_cp_bin = @echo "'$@' because you asked for a .bin"; $(cp_bin)
 $(bin): $(elf)
 	$($(print)cp_bin)
+
+       cp_hex = $(OBJCOPY) -O ihex $< $@
+ quiet_cp_hex = @echo "COPY: $@"; $(cp_hex)
+pretty_cp_hex = @echo "'$@' because you asked for a .hex"; $(cp_hex)
 $(hex): $(elf)
 	$($(print)cp_hex)
+
 size:   $(elf)
 	$(SIZE) $<
 
