@@ -22,6 +22,11 @@ static inline void gpio0_set_out(uint8_t pins)
 	P1DIR |= pins;
 }
 
+static inline void gpio0_set_dir(uint8_t pins, uint8_t in)
+{
+	bm_apply(P1DIR, pins,~in);
+}
+
 static inline uint8_t gpio0_read(void)
 {
 	return P1IN;

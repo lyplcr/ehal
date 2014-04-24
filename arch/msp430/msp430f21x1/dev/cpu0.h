@@ -1,5 +1,4 @@
 #include <msp430.h>
-#include <core/ehal.h>
 
 static inline void cpu0_ctor(void)
 {
