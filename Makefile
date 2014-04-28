@@ -14,11 +14,11 @@ build-hex: $(bin)
 
 # dirs we look for code
 src-$(CONFIG_SRC)		:= src/
-#arch-$(CONFIG_ARCH)		:=
+core-$(CONFIG_CORE)		:= core/
 drivers-$(CONFIG_DRIVERS)	:= drivers/
 
 ## build section. ##############################################################
-target-dirs	:= $(patsubst %/,%,$(src-y) $(arch-y) $(drivers-y))
+target-dirs	:= $(patsubst %/,%,$(arch-y) $(core-y) $(src-y) $(drivers-y))
 target-objs	:= $(patsubst %,$(O)%/built-in.o,$(target-dirs))
 
        cc_elf = $(CC) $(CFLAGS) -o $@ $(target-objs) $(LDLIBS)
