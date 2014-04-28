@@ -32,5 +32,5 @@ warning_3	:= $(warning_2) -Wall -pedantic
 
 
 # for local obj flags.
-CFLAGS += -Os -fomit-frame-pointer $(cflags-y) -I. $(warning_$(W))
+CFLAGS += -Os -std=gnu99 $(cflags-y) -I. $(warning_$(W))
 LDLIBS += $(ldlibs-y)
