@@ -1,0 +1,19 @@
+# Embedded Hardware Abstraction Layer.
+Is a set of APIs for common peripherals, libs and drivers.
+
+## APIs for peripheras:
+
+- GPIO
+- SPI
+- I2C
+
+## A set of drivers using the above mentioned APIs:
+
+- hd44780 (display driver.)
+- nrf24l01 (2.4GHz low power radio.)
+
+## Libs to ease development:
+
+- jobs (Defer heavy jobs out of IRQs.)
+- bbuf (zero copy circular buffer with non fixed element sizes.)
+- cbuf (circular buffer that needs no lock for 1 producer - 1 consumer.)
