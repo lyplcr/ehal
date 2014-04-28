@@ -52,6 +52,7 @@ struct gpio_interface {
 
 	void (*set_pushpull) (gpio_mask pins);
 	void (*set_opendrain)(gpio_mask pins);
+	void (*set_edge_irq) (gpio_mask rise, gpio_mask fall);
 };
 
 struct spi_interface {
