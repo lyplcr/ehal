@@ -1,5 +1,5 @@
 prefix	:= msp430-
 
-cflags-y		+= -mmcu=$(MCU) -flto -Iarch/$(ARCH)/
+cflags-y		+= -mmcu=$(MCU) -flto -I$(archdir)
 
-arch-$(CONFIG_DEV)	:= arch/$(ARCH)/dev/
+arch-$(CONFIG_DEV)	:= $(archdir)/dev/

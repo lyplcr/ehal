@@ -5,10 +5,6 @@ ifeq ($(ARCH),)
 $(error give me a ARCH to build for)
 endif
 
-ifeq ($(MCU),)
-$(error give me a MCU to build for)
-endif
-
 ifeq ($(W),)
 W=3
 endif

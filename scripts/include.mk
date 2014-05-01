@@ -1,5 +1,7 @@
 include scripts/opts.mk
-include arch/$(ARCH)/Makefile
+
+archdir := arch/$(ARCH)/
+include $(archdir)Makefile
 
 # Do not
 # o  use make builtins rules (to make it faster)
