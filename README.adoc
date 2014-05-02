@@ -1,0 +1,55 @@
+= Embedded Hardware Abstraction Layer.
+
+Is a interface for MCU peripherals and its implementation for multiple MCUs
+of multiple arquitectures. Along with libs for driver development and drivers
+implemented over the above stack.
+
+Check core/ehal.h for the peripheral interfaces.
+
+== Feature set (for now):
+
+=== Suport for MCUs families:
+
+- msp430/msp430f21x1
+- avr/atmegaX8
+- arm/lm4f120h5qr
+
+.peripherals state:
+[width="50%"]
+:tabletags-red.bodydata: <td style="background-color:red;">|</td>
+:tabledef-default.red-style: tags="red"
+|================================
+|tbl     |atmegaX8|lm4f120|msp430
+|GPIO    |Y       |Y      |Y
+|CPU    r|P      r|P     r|P
+|SPI    r|N      r|N     r|N
+|I2C    r|N      r|N     r|N
+|DMA     |NA     r|N      |NA
+|CAN     |NA     r|N      |NA
+|UART   r|N      r|N     r|N
+|===============================
+
+* Y  - complete support.
+* P  - partial support.
+* N  - no support.
+* NA - not aplicable.
+
+=== A set of drivers using the above mentioned APIs:
+
+==== In the plans
+
+- hd44780  (based display drivers.)
+- nrf24l01 (2.4GHz low power radio.)
+
+=== Driver development Libs:
+
+- jobs (Defer heavy jobs out of IRQs.)
+- bbuf (zero copy circular buffer with non fixed element sizes.)
+- cbuf (circular buffer that needs no lock for 1 producer - 1 consumer.)
+
+== roadmap (in order)
+
+* UART.
+* SPI.
+* hd44780 driver.
+* nrf24l01 driver.
