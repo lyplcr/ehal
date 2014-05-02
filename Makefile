@@ -14,6 +14,7 @@ build-hex: $(bin)
 
 # dirs we look for code
 src-$(CONFIG_SRC)		:= src/
+src-$(CONFIG_TEST)		:= test/
 core-$(CONFIG_CORE)		:= core/
 drivers-$(CONFIG_DRIVERS)	:= drivers/
 
@@ -80,6 +81,6 @@ help:
 ## config. #####################################################################
 config:
 	@echo "generating default .config file."
-	@cp arch/$(ARCH)/config .config
+	@cp arch/$(ARCH)$(SUBARCH)/config .config
 
 .PHONY: build bin clean $(target-dirs)

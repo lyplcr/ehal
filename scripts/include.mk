@@ -1,6 +1,6 @@
 include scripts/opts.mk
 
-archdir := arch/$(ARCH)/
+archdir := arch/$(ARCH)$(SUBARCH)/
 include $(archdir)Makefile
 
 # Do not

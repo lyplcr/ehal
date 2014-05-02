@@ -1,9 +1,18 @@
-ARCH=avr/atmegaX8
+ARCH=avr/
+SUBARCH=atmegaX8
 MCU=atmega328p
 
-CONFIG_SRC      	:=y
-CONFIG_DEV      	:=y
-CONFIG_DEV_CPU0 	:=y
-CONFIG_DEV_GPIO0	:=y
-CONFIG_DEV_GPIO1	:=y
-CONFIG_DEV_GPIO2	:=y
+CONFIG_TEST                 :=
+CONFIG_TEST_$(SUBARCH)_GPIO :=
+
+CONFIG_CORE                 :=y
+CONFIG_CORE_JOBS            :=y
+CONFIG_CORE_BBUF            :=y
+CONFIG_CORE_CBUF            :=y
+
+CONFIG_SRC                  :=y
+CONFIG_DEV                  :=y
+CONFIG_DEV_CPU0             :=y
+CONFIG_DEV_GPIO0            :=y
+CONFIG_DEV_GPIO1            :=y
+CONFIG_DEV_GPIO2            :=y
