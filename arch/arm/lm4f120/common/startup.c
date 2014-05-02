@@ -1,18 +1,18 @@
 #include <common/lm4f120h5qr.h>
 
-void ResetISR(void);
+void reset_irq_handler(void);
 static void NmiSR(void);
 static void FaultISR(void);
-static void IntDefaultHandler(void);
+static void default_irq_handler(void);
 
-__attribute__((weak)) void GPIOA_irq_handler(void) {}
-__attribute__((weak)) void GPIOB_irq_handler(void) {}
-__attribute__((weak)) void GPIOC_irq_handler(void) {}
-__attribute__((weak)) void GPIOD_irq_handler(void) {}
-__attribute__((weak)) void GPIOE_irq_handler(void) {}
-__attribute__((weak)) void GPIOF_irq_handler(void) {}
-__attribute__((weak)) void GPIOG_irq_handler(void) {}
-__attribute__((weak)) void GPIOH_irq_handler(void) {}
+__attribute__((weak, alias("reset_irq_handler"))) void gpioA_irq_handler(void);
+__attribute__((weak, alias("reset_irq_handler"))) void gpioB_irq_handler(void);
+__attribute__((weak, alias("reset_irq_handler"))) void gpioC_irq_handler(void);
+__attribute__((weak, alias("reset_irq_handler"))) void gpioD_irq_handler(void);
+__attribute__((weak, alias("reset_irq_handler"))) void gpioE_irq_handler(void);
+__attribute__((weak, alias("reset_irq_handler"))) void gpioF_irq_handler(void);
+__attribute__((weak, alias("reset_irq_handler"))) void gpioG_irq_handler(void);
+__attribute__((weak, alias("reset_irq_handler"))) void gpioH_irq_handler(void);
 
 extern int main(void);
 
@@ -34,98 +34,93 @@ void (* const g_pfnVectors[])(void) =
 {
 	(void (*)(void))((unsigned long)pulStack + sizeof(pulStack)),
 	// The initial stack pointer
-	ResetISR,                               // The reset handler
+	reset_irq_handler,                      // The reset handler
 	NmiSR,                                  // The NMI handler
 	FaultISR,                               // The hard fault handler
-	IntDefaultHandler,                      // The MPU fault handler
-	IntDefaultHandler,                      // The bus fault handler
-	IntDefaultHandler,                      // The usage fault handler
+	default_irq_handler,                    // The MPU fault handler
+	default_irq_handler,                    // The bus fault handler
+	default_irq_handler,                    // The usage fault handler
 	0,                                      // Reserved
 	0,                                      // Reserved
 	0,                                      // Reserved
 	0,                                      // Reserved
-	IntDefaultHandler,                      // SVCall handler
-	IntDefaultHandler,                      // Debug monitor handler
+	default_irq_handler,                    // SVCall handler
+	default_irq_handler,                    // Debug monitor handler
 	0,                                      // Reserved
-	IntDefaultHandler,                      // The PendSV handler
-	IntDefaultHandler,                      // The SysTick handler
-	GPIOA_irq_handler,                      // GPIO Port A
-	GPIOB_irq_handler,                      // GPIO Port B
-	GPIOC_irq_handler,                      // GPIO Port C
-	GPIOD_irq_handler,                      // GPIO Port D
-	GPIOE_irq_handler,                      // GPIO Port E
-	IntDefaultHandler,                      // UART0 Rx and Tx
-	IntDefaultHandler,                      // UART1 Rx and Tx
-	IntDefaultHandler,                      // SSI0 Rx and Tx
-	IntDefaultHandler,                      // I2C0 Master and Slave
-	IntDefaultHandler,                      // PWM Fault
-	IntDefaultHandler,                      // PWM Generator 0
-	IntDefaultHandler,                      // PWM Generator 1
-	IntDefaultHandler,                      // PWM Generator 2
-	IntDefaultHandler,                      // Quadrature Encoder 0
-	IntDefaultHandler,                      // ADC Sequence 0
-	IntDefaultHandler,                      // ADC Sequence 1
-	IntDefaultHandler,                      // ADC Sequence 2
-	IntDefaultHandler,                      // ADC Sequence 3
-	IntDefaultHandler,                      // Watchdog timer
-	IntDefaultHandler,                      // Timer 0 subtimer A
-	IntDefaultHandler,                      // Timer 0 subtimer B
-	IntDefaultHandler,                      // Timer 1 subtimer A
-	IntDefaultHandler,                      // Timer 1 subtimer B
-	IntDefaultHandler,                      // Timer 2 subtimer A
-	IntDefaultHandler,                      // Timer 2 subtimer B
-	IntDefaultHandler,                      // Analog Comparator 0
-	IntDefaultHandler,                      // Analog Comparator 1
-	IntDefaultHandler,                      // Analog Comparator 2
-	IntDefaultHandler,                      // System Control (PLL, OSC, BO)
-	IntDefaultHandler,                      // FLASH Control
-	GPIOF_irq_handler,                      // GPIO Port F
-	GPIOG_irq_handler,                      // GPIO Port G
-	GPIOH_irq_handler,                      // GPIO Port H
-	IntDefaultHandler,                      // UART2 Rx and Tx
-	IntDefaultHandler,                      // SSI1 Rx and Tx
-	IntDefaultHandler,                      // Timer 3 subtimer A
-	IntDefaultHandler,                      // Timer 3 subtimer B
-	IntDefaultHandler,                      // I2C1 Master and Slave
-	IntDefaultHandler,                      // Quadrature Encoder 1
-	IntDefaultHandler,                      // CAN0
-	IntDefaultHandler,                      // CAN1
-	IntDefaultHandler,                      // CAN2
-	IntDefaultHandler,                      // Ethernet
-	IntDefaultHandler,                      // Hibernate
-	IntDefaultHandler,                      // USB0
-	IntDefaultHandler,                      // PWM Generator 3
-	IntDefaultHandler,                      // uDMA Software Transfer
-	IntDefaultHandler,                      // uDMA Error
-	IntDefaultHandler,                      // ADC1 Sequence 0
-	IntDefaultHandler,                      // ADC1 Sequence 1
-	IntDefaultHandler,                      // ADC1 Sequence 2
-	IntDefaultHandler,                      // ADC1 Sequence 3
-	IntDefaultHandler,                      // I2S0
-	IntDefaultHandler,                      // External Bus Interface 0
-	IntDefaultHandler,                      // GPIO Port J
-	IntDefaultHandler,                      // GPIO Port K
-	IntDefaultHandler,                      // GPIO Port L
-	IntDefaultHandler,                      // SSI2 Rx and Tx
-	IntDefaultHandler,                      // SSI3 Rx and Tx
-	IntDefaultHandler,                      // UART3 Rx and Tx
-	IntDefaultHandler,                      // UART4 Rx and Tx
-	IntDefaultHandler,                      // UART5 Rx and Tx
-	IntDefaultHandler,                      // UART6 Rx and Tx
-	IntDefaultHandler,                      // UART7 Rx and Tx
-	0,                                      // Reserved
-	0,                                      // Reserved
-	0,                                      // Reserved
-	0,                                      // Reserved
-	IntDefaultHandler,                      // I2C2 Master and Slave
-	IntDefaultHandler,                      // I2C3 Master and Slave
-	IntDefaultHandler,                      // Timer 4 subtimer A
-	IntDefaultHandler,                      // Timer 4 subtimer B
+	default_irq_handler,                    // The PendSV handler
+	default_irq_handler,                    // The SysTick handler
+	gpioA_irq_handler,                      // gpio Port A
+	gpioB_irq_handler,                      // gpio Port B
+	gpioC_irq_handler,                      // gpio Port C
+	gpioD_irq_handler,                      // gpio Port D
+	gpioE_irq_handler,                      // gpio Port E
+	default_irq_handler,                    // UART0 Rx and Tx
+	default_irq_handler,                    // UART1 Rx and Tx
+	default_irq_handler,                    // SSI0 Rx and Tx
+	default_irq_handler,                    // I2C0 Master and Slave
+	default_irq_handler,                    // PWM Fault
+	default_irq_handler,                    // PWM Generator 0
+	default_irq_handler,                    // PWM Generator 1
+	default_irq_handler,                    // PWM Generator 2
+	default_irq_handler,                    // Quadrature Encoder 0
+	default_irq_handler,                    // ADC Sequence 0
+	default_irq_handler,                    // ADC Sequence 1
+	default_irq_handler,                    // ADC Sequence 2
+	default_irq_handler,                    // ADC Sequence 3
+	default_irq_handler,                    // Watchdog timer
+	default_irq_handler,                    // Timer 0 subtimer A
+	default_irq_handler,                    // Timer 0 subtimer B
+	default_irq_handler,                    // Timer 1 subtimer A
+	default_irq_handler,                    // Timer 1 subtimer B
+	default_irq_handler,                    // Timer 2 subtimer A
+	default_irq_handler,                    // Timer 2 subtimer B
+	default_irq_handler,                    // Analog Comparator 0
+	default_irq_handler,                    // Analog Comparator 1
+	default_irq_handler,                    // Analog Comparator 2
+	default_irq_handler,                    // System Control (PLL, OSC, BO)
+	default_irq_handler,                    // FLASH Control
+	gpioF_irq_handler,                      // gpio Port F
+	default_irq_handler,                    // gpio Port G
+	default_irq_handler,                    // gpio Port H
+	default_irq_handler,                    // UART2 Rx and Tx
+	default_irq_handler,                    // SSI1 Rx and Tx
+	default_irq_handler,                    // Timer 3 subtimer A
+	default_irq_handler,                    // Timer 3 subtimer B
+	default_irq_handler,                    // I2C1 Master and Slave
+	default_irq_handler,                    // Quadrature Encoder 1
+	default_irq_handler,                    // CAN0
+	default_irq_handler,                    // CAN1
+	default_irq_handler,                    // CAN2
+	default_irq_handler,                    // Ethernet
+	default_irq_handler,                    // Hibernate
+	default_irq_handler,                    // USB0
+	default_irq_handler,                    // PWM Generator 3
+	default_irq_handler,                    // uDMA Software Transfer
+	default_irq_handler,                    // uDMA Error
+	default_irq_handler,                    // ADC1 Sequence 0
+	default_irq_handler,                    // ADC1 Sequence 1
+	default_irq_handler,                    // ADC1 Sequence 2
+	default_irq_handler,                    // ADC1 Sequence 3
+	default_irq_handler,                    // I2S0
+	default_irq_handler,                    // External Bus Interface 0
+	default_irq_handler,                    // gpio Port J
+	default_irq_handler,                    // gpio Port K
+	default_irq_handler,                    // gpio Port L
+	default_irq_handler,                    // SSI2 Rx and Tx
+	default_irq_handler,                    // SSI3 Rx and Tx
+	default_irq_handler,                    // UART3 Rx and Tx
+	default_irq_handler,                    // UART4 Rx and Tx
+	default_irq_handler,                    // UART5 Rx and Tx
+	default_irq_handler,                    // UART6 Rx and Tx
+	default_irq_handler,                    // UART7 Rx and Tx
 	0,                                      // Reserved
 	0,                                      // Reserved
 	0,                                      // Reserved
 	0,                                      // Reserved
-	0,                                      // Reserved
+	default_irq_handler,                    // I2C2 Master and Slave
+	default_irq_handler,                    // I2C3 Master and Slave
+	default_irq_handler,                    // Timer 4 subtimer A
+	default_irq_handler,                    // Timer 4 subtimer B
 	0,                                      // Reserved
 	0,                                      // Reserved
 	0,                                      // Reserved
@@ -141,53 +136,58 @@ void (* const g_pfnVectors[])(void) =
 	0,                                      // Reserved
 	0,                                      // Reserved
 	0,                                      // Reserved
-	IntDefaultHandler,                      // Timer 5 subtimer A
-	IntDefaultHandler,                      // Timer 5 subtimer B
-	IntDefaultHandler,                      // Wide Timer 0 subtimer A
-	IntDefaultHandler,                      // Wide Timer 0 subtimer B
-	IntDefaultHandler,                      // Wide Timer 1 subtimer A
-	IntDefaultHandler,                      // Wide Timer 1 subtimer B
-	IntDefaultHandler,                      // Wide Timer 2 subtimer A
-	IntDefaultHandler,                      // Wide Timer 2 subtimer B
-	IntDefaultHandler,                      // Wide Timer 3 subtimer A
-	IntDefaultHandler,                      // Wide Timer 3 subtimer B
-	IntDefaultHandler,                      // Wide Timer 4 subtimer A
-	IntDefaultHandler,                      // Wide Timer 4 subtimer B
-	IntDefaultHandler,                      // Wide Timer 5 subtimer A
-	IntDefaultHandler,                      // Wide Timer 5 subtimer B
-	IntDefaultHandler,                      // FPU
-	IntDefaultHandler,                      // PECI 0
-	IntDefaultHandler,                      // LPC 0
-	IntDefaultHandler,                      // I2C4 Master and Slave
-	IntDefaultHandler,                      // I2C5 Master and Slave
-	IntDefaultHandler,                      // GPIO Port M
-	IntDefaultHandler,                      // GPIO Port N
-	IntDefaultHandler,                      // Quadrature Encoder 2
-	IntDefaultHandler,                      // Fan 0
 	0,                                      // Reserved
-	IntDefaultHandler,                      // GPIO Port P (Summary or P0)
-	IntDefaultHandler,                      // GPIO Port P1
-	IntDefaultHandler,                      // GPIO Port P2
-	IntDefaultHandler,                      // GPIO Port P3
-	IntDefaultHandler,                      // GPIO Port P4
-	IntDefaultHandler,                      // GPIO Port P5
-	IntDefaultHandler,                      // GPIO Port P6
-	IntDefaultHandler,                      // GPIO Port P7
-	IntDefaultHandler,                      // GPIO Port Q (Summary or Q0)
-	IntDefaultHandler,                      // GPIO Port Q1
-	IntDefaultHandler,                      // GPIO Port Q2
-	IntDefaultHandler,                      // GPIO Port Q3
-	IntDefaultHandler,                      // GPIO Port Q4
-	IntDefaultHandler,                      // GPIO Port Q5
-	IntDefaultHandler,                      // GPIO Port Q6
-	IntDefaultHandler,                      // GPIO Port Q7
-	IntDefaultHandler,                      // GPIO Port R
-	IntDefaultHandler,                      // GPIO Port S
-	IntDefaultHandler,                      // PWM 1 Generator 0
-	IntDefaultHandler,                      // PWM 1 Generator 1
-	IntDefaultHandler,                      // PWM 1 Generator 2
-	IntDefaultHandler,                      // PWM 1 Generator 3
-	IntDefaultHandler                       // PWM 1 Fault
+	0,                                      // Reserved
+	0,                                      // Reserved
+	0,                                      // Reserved
+	0,                                      // Reserved
+	default_irq_handler,                    // Timer 5 subtimer A
+	default_irq_handler,                    // Timer 5 subtimer B
+	default_irq_handler,                    // Wide Timer 0 subtimer A
+	default_irq_handler,                    // Wide Timer 0 subtimer B
+	default_irq_handler,                    // Wide Timer 1 subtimer A
+	default_irq_handler,                    // Wide Timer 1 subtimer B
+	default_irq_handler,                    // Wide Timer 2 subtimer A
+	default_irq_handler,                    // Wide Timer 2 subtimer B
+	default_irq_handler,                    // Wide Timer 3 subtimer A
+	default_irq_handler,                    // Wide Timer 3 subtimer B
+	default_irq_handler,                    // Wide Timer 4 subtimer A
+	default_irq_handler,                    // Wide Timer 4 subtimer B
+	default_irq_handler,                    // Wide Timer 5 subtimer A
+	default_irq_handler,                    // Wide Timer 5 subtimer B
+	default_irq_handler,                    // FPU
+	default_irq_handler,                    // PECI 0
+	default_irq_handler,                    // LPC 0
+	default_irq_handler,                    // I2C4 Master and Slave
+	default_irq_handler,                    // I2C5 Master and Slave
+	default_irq_handler,                    // gpio Port M
+	default_irq_handler,                    // gpio Port N
+	default_irq_handler,                    // Quadrature Encoder 2
+	default_irq_handler,                    // Fan 0
+	0,                                      // Reserved
+	default_irq_handler,                    // gpio Port P (Summary or P0)
+	default_irq_handler,                    // gpio Port P1
+	default_irq_handler,                    // gpio Port P2
+	default_irq_handler,                    // gpio Port P3
+	default_irq_handler,                    // gpio Port P4
+	default_irq_handler,                    // gpio Port P5
+	default_irq_handler,                    // gpio Port P6
+	default_irq_handler,                    // gpio Port P7
+	default_irq_handler,                    // gpio Port Q (Summary or Q0)
+	default_irq_handler,                    // gpio Port Q1
+	default_irq_handler,                    // gpio Port Q2
+	default_irq_handler,                    // gpio Port Q3
+	default_irq_handler,                    // gpio Port Q4
+	default_irq_handler,                    // gpio Port Q5
+	default_irq_handler,                    // gpio Port Q6
+	default_irq_handler,                    // gpio Port Q7
+	default_irq_handler,                    // gpio Port R
+	default_irq_handler,                    // gpio Port S
+	default_irq_handler,                    // PWM 1 Generator 0
+	default_irq_handler,                    // PWM 1 Generator 1
+	default_irq_handler,                    // PWM 1 Generator 2
+	default_irq_handler,                    // PWM 1 Generator 3
+	default_irq_handler                     // PWM 1 Fault
 };
 
 //*****************************************************************************
@@ -214,7 +214,7 @@ extern unsigned long _ebss;
 //
 //*****************************************************************************
 __attribute__((used)) void
-ResetISR(void)
+reset_irq_handler(void)
 {
 	unsigned long *src = &_etext, *dst = &_data;
 
@@ -282,7 +282,7 @@ FaultISR(void)
 //
 //*****************************************************************************
 static void
-IntDefaultHandler(void)
+default_irq_handler(void)
 {
 	//
 	// Go into an infinite loop.

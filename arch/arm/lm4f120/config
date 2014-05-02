@@ -20,5 +20,3 @@ CONFIG_DEV_GPIO2            :=y
 CONFIG_DEV_GPIO3            :=y
 CONFIG_DEV_GPIO4            :=y
 CONFIG_DEV_GPIO5            :=y
-CONFIG_DEV_GPIO6            :=y
-CONFIG_DEV_GPIO7            :=y
