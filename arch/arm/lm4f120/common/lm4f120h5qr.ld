@@ -1,4 +1,4 @@
-ENTRY(ResetISR);
+ENTRY(reset_irq_handler);
 
 MEMORY {
     FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 0x00040000
