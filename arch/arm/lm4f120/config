@@ -5,6 +5,7 @@ MCU=lm4f120h5qr
 
 CONFIG_TEST                 :=
 CONFIG_TEST_$(SUBARCH)_GPIO :=
+CONFIG_TEST_$(SUBARCH)_CPU  :=
 
 CONFIG_CORE                 :=y
 CONFIG_CORE_JOBS            :=y
