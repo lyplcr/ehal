@@ -6,11 +6,11 @@ bin := $(elf:%.elf=%.bin)
 hex := $(elf:%.elf=%.hex)
 
 # build rules to call directly
-all:       build
+all:       build-elf build-bin build-hex size
 build:     $(elf) $(hex) $(bin)
 build-elf: $(elf)
 build-bin: $(bin)
-build-hex: $(bin)
+build-hex: $(hex)
 
 # dirs we look for code
 src-$(CONFIG_SRC)		:= src/

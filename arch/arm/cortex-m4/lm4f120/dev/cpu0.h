@@ -32,6 +32,6 @@ static inline void cpu0_dtor(void)
 /* stubs, not required for milestone. */
 static inline void cpu0_reset(void) {}
 static inline void cpu0_busywait_ms(uint16_t ms) {}
-static inline uint8_t cpu0_boot_cause(void) { return CPU_BOOT_INVALID; }
+static inline uint8_t cpu0_boot_cause(void) { return 0; }
 
 #endif /* CPU0_H */
