@@ -1,7 +1,7 @@
 #ifndef GPIO3_H
 #define GPIO3_H
-#include <common/lm4f120h5qr.h>
-#include <common/nvic.h>
+#include <lm4f120h5qr.h>
+#include <nvic.h>
 #include <core/ehal.h>
 
 /* Register summary:
