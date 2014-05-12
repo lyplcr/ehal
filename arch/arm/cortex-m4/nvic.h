@@ -1,6 +1,9 @@
 #ifndef NVIC_H
 #define NVIC_H
 
+#include <hw/hw_nvic.h>
+#include <stdint.h>
+
 static inline void nvic_enable(uint8_t irq)
 {
 	((uint32_t *)NVIC_EN0)[irq / 32] |= 1 << irq;

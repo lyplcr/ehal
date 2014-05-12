@@ -1,6 +1,6 @@
 prefix		:= arm-none-eabi-
 
-cflags-y	+= -mlittle-endian -mthumb -mcpu=cortex-m4 -Iarch/$(ARCH)$(SUBARCH)
+cflags-y	+= -mlittle-endian -mthumb -mcpu=cortex-m4 -Iarch/$(ARCH) -Iarch/$(ARCH)$(SUBARCH)
 cflags-y	+= -mfpu=fpv4-sp-d16 -mfloat-abi=hard -ffunction-sections -fdata-sections -flto
 
 ldlibs-y	+= -Tarch/$(ARCH)$(SUBARCH)/lm4f120h5qr.ld
