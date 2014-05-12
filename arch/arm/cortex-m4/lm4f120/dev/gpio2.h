@@ -1,7 +1,8 @@
 #ifndef GPIO2_H
 #define GPIO2_H
 #include <lm4f120h5qr.h>
-#include <nvic.h>
+#include <cortex-m4/nvic.h>
+#include <dev/gpio_base.h>
 #include <core/ehal.h>
 
 /* Register summary:
@@ -22,14 +23,14 @@ static inline void gpio2_ctor (void)
 	SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOC;
 	/* NVIC table: 2-9, p.102 of lm4f120h5qr datasheet.
 	 * from: http://www.mouser.com/ds/2/405/lm4f120h5qr-124014.pdf */
-	nvic_enable(2);
+	nvic_enable(GPIO2_NVIC_ENTRY);
 }
 
 static inline void gpio2_dtor (void)
 {
 	if (--gpio2_refcount == 0) {
 		SYSCTL_RCGC2_R &=~SYSCTL_RCGC2_GPIOC;
-		nvic_disable(2);
+		nvic_disable(GPIO2_NVIC_ENTRY);
 	}
 }
 
