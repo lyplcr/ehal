@@ -1,17 +1,17 @@
-ARCH=msp430/
-SUBARCH=msp430f21x1
-MCU=msp430f2121
+arch=${arch:-msp430/}
+sub=${sub:-msp430f21x1}
+mcu=${mcu:-msp430f2121}
 
-CONFIG_TEST                 :=
-CONFIG_TEST_$(SUBARCH)_GPIO :=
+CONFIG_TEST             :=
+CONFIG_TEST_'$(sub)'_GPIO :=
 
-CONFIG_CORE                 :=y
-CONFIG_CORE_JOBS            :=y
-CONFIG_CORE_BBUF            :=y
-CONFIG_CORE_CBUF            :=y
+CONFIG_CORE             :=y
+CONFIG_CORE_JOBS        :=y
+CONFIG_CORE_BBUF        :=y
+CONFIG_CORE_CBUF        :=y
 
-CONFIG_SRC                  :=y
-CONFIG_DEV                  :=y
-CONFIG_DEV_CPU0             :=y
-CONFIG_DEV_GPIO0            :=y
-CONFIG_DEV_GPIO1            :=y
+CONFIG_SRC              :=y
+CONFIG_DEV              :=y
+CONFIG_DEV_CPU0         :=y
+CONFIG_DEV_GPIO0        :=y
+CONFIG_DEV_GPIO1        :=y

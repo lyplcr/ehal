@@ -1,7 +1,7 @@
 include scripts/include.mk
 
 # ouput names
-elf := $(O)$(MCU).elf
+elf := $(O)$(mcu).elf
 bin := $(elf:%.elf=%.bin)
 hex := $(elf:%.elf=%.hex)
 
@@ -72,8 +72,8 @@ help:
 	@echo "* help"
 	@echo ""
 	@echo "opts:"
-	@echo "* ARCH=<arch>"
-	@echo "* MCU=<mcu>"
+	@echo "* arch=<arch>"
+	@echo "* mcu=<mcu>"
 	@echo ""
 	@echo "archs:"
 	@echo $(shell ls arch)
@@ -81,6 +81,9 @@ help:
 ## config. #####################################################################
 config:
 	@echo "generating default .config file."
-	@cp arch/$(ARCH)$(SUBARCH)/config .config
+	@cp arch/$(arch)$(sub)/config .config
 
-.PHONY: build bin clean $(target-dirs)
+zconfig:
+	@sh scripts/zconfig.sh
+
+.PHONY: build bin clean menuconfig $(target-dirs)

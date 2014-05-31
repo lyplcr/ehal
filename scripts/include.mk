@@ -1,7 +1,8 @@
 include scripts/opts.mk
 
-archdir := arch/$(ARCH)/
-include $(archdir)Makefile
+archdir := arch/$(arch)/$(sub)/
+mcudir  := $(archdir)$(mcu)/
+-include $(archdir)Makefile
 
 # Do not
 # o  use make builtins rules (to make it faster)

@@ -1,8 +1,8 @@
 #ifndef GPIO1_H
 #define GPIO1_H
-#include <lm4f120h5qr.h>
-#include <cortex-m4/nvic.h>
-#include <dev/gpio_base.h>
+#include <lib/lm4f120h5qr.h>
+#include <lib/nvic.h>
+#include <lib/gpio_base.h>
 #include <core/ehal.h>
 
 /* Register summary:

@@ -1,5 +1,5 @@
 prefix		:= avr-
 
-cflags-y	+= -mmcu=$(MCU) -I$(archdir)
+cflags-y	+= -mmcu=$(mcu) -I$(archdir)
 
 arch-$(CONFIG_DEV)		:= $(archdir)dev/

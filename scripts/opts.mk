@@ -1,10 +1,5 @@
 -include .config
 
-# give me a ARCH/MCU to build for.
-ifeq ($(ARCH),)
-$(error give me a ARCH to build for)
-endif
-
 ifeq ($(W),)
 W=3
 endif

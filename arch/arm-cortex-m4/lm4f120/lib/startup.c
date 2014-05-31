@@ -1,4 +1,4 @@
-#include <cortex-m4/lm4f120/lm4f120h5qr.h>
+#include "lm4f120h5qr.h"
 
 void reset_irq_handler(void);
 static void NmiSR(void);
