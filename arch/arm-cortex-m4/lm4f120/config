@@ -3,16 +3,16 @@ sub=${sub:-lm4f120}
 mcu=${mcu:-lm4f120h5qr}
 
 
+CONFIG_SRC              :=y
 CONFIG_TEST             :=
-CONFIG_TEST_'$(sub)'_GPIO :=
-CONFIG_TEST_'$(sub)'_CPU  :=
+CONFIG_TEST_GPIO	:=
+CONFIG_TEST_CPU		:=
 
 CONFIG_CORE             :=y
 CONFIG_CORE_JOBS        :=y
 CONFIG_CORE_BBUF        :=y
 CONFIG_CORE_CBUF        :=y
 
-CONFIG_SRC              :=y
 CONFIG_DEV              :=y
 CONFIG_DEV_CPU0         :=y
 CONFIG_DEV_GPIO0        :=y

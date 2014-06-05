@@ -2,8 +2,10 @@
 #define GPIO4_H
 #include <lib/lm4f120h5qr.h>
 #include <lib/nvic.h>
-#include <lib/gpio_base.h>
-#include <core/ehal.h>
+#include <lib/gpio_conf.h>
+#include <core/interfaces/gpio.h>
+#include <core/bm.h>
+
 
 /* Register summary:
  * SYSCTL_RGCG2_R   - enable peripherals in the BUS.

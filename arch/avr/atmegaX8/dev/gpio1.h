@@ -1,7 +1,8 @@
 #ifndef GPIO1_H
 #define GPIO1_H
 #include <stdint.h>
-#include <core/ehal.h>
+#include <lib/gpio_conf.h>
+#include <core/interfaces/gpio.h>
 #include <avr/io.h>
 
 /* DDR - Data Direction Register (In/Out)

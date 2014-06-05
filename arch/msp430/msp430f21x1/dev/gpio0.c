@@ -1,4 +1,3 @@
-#include <core/ehal.h>
 #include <dev/gpio0.h>
 
 __attribute__((weak))

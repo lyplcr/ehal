@@ -1,8 +1,10 @@
 #ifndef GPIO1_H
 #define GPIO1_H
 #include <stdint.h>
-#include <core/ehal.h>
 #include <msp430.h>
+
+#include <lib/gpio_conf.h>
+#include <core/interfaces/gpio.h>
 
 static inline void gpio1_ctor(void)
 { /* nothing to do, it starts powered up. */
