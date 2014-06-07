@@ -24,7 +24,6 @@ int main(int argc, char *argv[]) {
 	gpio5_set_in(SW1);
 	gpio5_set_pullup(SW1);
 	gpio5_set_edge_irq(0, SW1);
-	NVIC_EN0_R = NVIC_EN0_INT30;  // (h) enable interrupt 30 in NVIC
 
 	while (1) {
 		/* make it blink on and off (using the button and IRQ) */
