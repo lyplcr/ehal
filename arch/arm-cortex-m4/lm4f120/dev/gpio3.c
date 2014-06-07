@@ -7,7 +7,7 @@ void gpio3_irq(uint8_t pins) {}
 
 void gpioD_irq_handler(void)
 {
-	uint32_t ris = GPIO_PORTD_RIS_R;
+	uint32_t ris = HWREG(GPIO_PORTD_AHB_BASE + GPIO_O_RIS);
 	gpio3_irq(gpio3_read());
-	GPIO_PORTD_ICR_R = ris; /* clear handled pins. */
+	HWREG(GPIO_PORTD_AHB_BASE + GPIO_O_ICR) = ris;
 }

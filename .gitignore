@@ -1,8 +1,13 @@
 *.bin
 *.elf
 *.hex
-
 *.o
 *.d
 
+# tmp files all around.
+*~
+\#*
+.\#*
+
+.dir-locals.el
 .config
