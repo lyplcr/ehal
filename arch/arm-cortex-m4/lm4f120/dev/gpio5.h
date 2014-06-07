@@ -24,21 +24,24 @@ extern uint8_t gpio5_refcount;
 
 static inline void gpio5_ctor (void)
 {
-	gpio5_refcount++;
+	if (gpio5_refcount++ != 0)
+		return;
 	HWREG(SYSCTL_RCGCGPIO) |= SYSCTL_RCGCGPIO_R5;
 	HWREG(SYSCTL_GPIOHBCTL) |= SYSCTL_GPIOHBCTL_PORTF;
 	/* NVIC table: 2-9, p.102 of lm4f120h5qr datasheet.
 	 * from: http://www.mouser.com/ds/2/405/lm4f120h5qr-124014.pdf */
 	nvic_enable(GPIO5_NVIC_ENTRY);
+
+	while ((HWREG(SYSCTL_PRGPIO) & SYSCTL_PRGPIO_R5) == 0);
 }
 
 static inline void gpio5_dtor (void)
 {
-	if (--gpio5_refcount == 0) {
-		nvic_disable(GPIO5_NVIC_ENTRY);
-		HWREG(SYSCTL_GPIOHBCTL) &=~SYSCTL_GPIOHBCTL_PORTF;
-		HWREG(SYSCTL_RCGCGPIO) &=~SYSCTL_RCGCGPIO_R5;
-	}
+	if (--gpio5_refcount != 0)
+		return;
+	nvic_disable(GPIO5_NVIC_ENTRY);
+	HWREG(SYSCTL_GPIOHBCTL) &=~SYSCTL_GPIOHBCTL_PORTF;
+	HWREG(SYSCTL_RCGCGPIO) &=~SYSCTL_RCGCGPIO_R5;
 }
 
 static inline void gpio5_set_in(uint8_t pins)
@@ -61,18 +64,17 @@ static inline void gpio5_set_dir(uint8_t pins, uint8_t in)
 
 static inline void gpio5_set(uint8_t pins)
 {
-	HWREG(GPIO_PORTF_AHB_BASE + GPIO_O_DATA + (pins << 2)) |= pins;
+	HWREG(GPIO_PORTF_AHB_BASE + GPIO_O_DATA + (pins << 2)) = pins;
 }
 
 static inline void gpio5_clr(uint8_t pins)
 {
-	HWREG(GPIO_PORTF_AHB_BASE + GPIO_O_DATA + (pins << 2)) &=~pins;
+	HWREG(GPIO_PORTF_AHB_BASE + GPIO_O_DATA + (pins << 2)) = 0;
 }
 
 static inline void gpio5_set_to(uint8_t pins, uint8_t high)
 {
-	gpio5_set(pins &  high);
-	gpio5_clr(pins &(~high));
+	HWREG(GPIO_PORTF_AHB_BASE + GPIO_O_DATA + (pins << 2)) = high;
 }
 
 static inline uint8_t gpio5_read(void)

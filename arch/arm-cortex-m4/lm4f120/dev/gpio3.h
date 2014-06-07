@@ -24,21 +24,24 @@ extern uint8_t gpio3_refcount;
 
 static inline void gpio3_ctor (void)
 {
-	gpio3_refcount++;
+	if (gpio3_refcount++ != 0)
+		return;
 	HWREG(SYSCTL_RCGCGPIO) |= SYSCTL_RCGCGPIO_R3;
 	HWREG(SYSCTL_GPIOHBCTL) |= SYSCTL_GPIOHBCTL_PORTD;
 	/* NVIC table: 2-9, p.102 of lm4f120h5qr datasheet.
 	 * from: http://www.mouser.com/ds/2/405/lm4f120h5qr-124014.pdf */
 	nvic_enable(GPIO3_NVIC_ENTRY);
+
+	while ((HWREG(SYSCTL_PRGPIO) & SYSCTL_PRGPIO_R3) == 0);
 }
 
 static inline void gpio3_dtor (void)
 {
-	if (--gpio3_refcount == 0) {
-		nvic_disable(GPIO3_NVIC_ENTRY);
-		HWREG(SYSCTL_GPIOHBCTL) &=~SYSCTL_GPIOHBCTL_PORTD;
-		HWREG(SYSCTL_RCGCGPIO) &=~SYSCTL_RCGCGPIO_R3;
-	}
+	if (--gpio3_refcount != 0)
+		return;
+	nvic_disable(GPIO3_NVIC_ENTRY);
+	HWREG(SYSCTL_GPIOHBCTL) &=~SYSCTL_GPIOHBCTL_PORTD;
+	HWREG(SYSCTL_RCGCGPIO) &=~SYSCTL_RCGCGPIO_R3;
 }
 
 static inline void gpio3_set_in(uint8_t pins)
@@ -61,18 +64,17 @@ static inline void gpio3_set_dir(uint8_t pins, uint8_t in)
 
 static inline void gpio3_set(uint8_t pins)
 {
-	HWREG(GPIO_PORTD_AHB_BASE + GPIO_O_DATA + (pins << 2)) |= pins;
+	HWREG(GPIO_PORTD_AHB_BASE + GPIO_O_DATA + (pins << 2)) = pins;
 }
 
 static inline void gpio3_clr(uint8_t pins)
 {
-	HWREG(GPIO_PORTD_AHB_BASE + GPIO_O_DATA + (pins << 2)) &=~pins;
+	HWREG(GPIO_PORTD_AHB_BASE + GPIO_O_DATA + (pins << 2)) = 0;
 }
 
 static inline void gpio3_set_to(uint8_t pins, uint8_t high)
 {
-	gpio3_set(pins &  high);
-	gpio3_clr(pins &(~high));
+	HWREG(GPIO_PORTD_AHB_BASE + GPIO_O_DATA + (pins << 2)) = high;
 }
 
 static inline uint8_t gpio3_read(void)
