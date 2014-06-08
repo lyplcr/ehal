@@ -15,6 +15,7 @@ struct cpu_interface {
 	void    (*enable_irqs)(void);
 	void    (*disable_irqs)(void);
 
+	uint32_t(*freq)        (void);
 	void    (*reset)       (void);
 	void    (*busywait_ms) (uint16_t ms); /**< at least this. */
 	uint8_t (*boot_cause)  (void);
