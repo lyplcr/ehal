@@ -20,13 +20,16 @@ static inline void cpu0_halt(void)
 	asm("WFI"); /* wait for irq. */
 }
 
+
 static inline void cpu0_ctor(void)
 {
-	HWREG(SYSCTL_RCC) = SYSCTL_RCC_XTAL_16MHZ		/* 16MHz */
+	HWREG(SYSCTL_RCC) = SYSCTL_RCC_BYPASS
+		| SYSCTL_RCC_XTAL_16MHZ				/* 16MHz */
 		| SYSCTL_RCC_OSCSRC_MAIN			/* main clk */
 		| SYSCTL_RCC_SYSDIV_4 | SYSCTL_RCC_USESYSDIV;	/* PLL @50MHz */
 	// wait for the PLL to lock by polling PLLLRIS
-	while ((HWREG(SYSCTL_RIS) & SYSCTL_RIS_PLLLRIS) == 0)
+	while ((HWREG(SYSCTL_RIS) & SYSCTL_RIS_PLLLRIS) == 0);
+	HWREG(SYSCTL_RCC) &=~SYSCTL_RCC_BYPASS;
 
 	cpu0_enable_irqs();
 }
