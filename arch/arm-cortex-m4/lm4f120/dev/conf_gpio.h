@@ -10,4 +10,7 @@
 
 typedef uint8_t gpio_mask;
 
+#define gpio_pctl_entry_mask(pin)   ((0xFF)  << (4*(pin)))
+#define gpio_pctl_entry(pin, value) ((value) << (4*(pin)))
+
 #endif /* GPIO_BASE_H */
