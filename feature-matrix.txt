@@ -1,9 +1,23 @@
-* subarch x device:
-     o    msp430f21x1
-     o     atmegaX8 |
-     o    lm4f120 | |
-        ________|_|_|_
-  - [ ] cpu    |v|v|v|
-  - [ ] gpio   |v|v|v|
-  - [ ] uart   |v| | |
-  - [ ] spi    | | | |
+* feature x architectures:
+	________________________
+	- [ ] msp430f25x2 ----.
+	- [ ] msp430f21x1 --. |
+	- [ ] atmegaX8 ---. | |
+	- [ ] lm4f120 --. | | |
+	      __________|_|_|_|_
+	- [ ] adc      | | | | |
+	- [ ] can      | |x|x| |
+	- [ ] cpu      |v|v|v| |
+	- [ ] dac      | |x| | |
+	- [ ] dma      | | | | |
+	- [ ] eeprom   | | | | |
+	- [ ] ethernet | |x|x| |
+	- [ ] flash    | | | | |
+	- [ ] gpio     |v|v|v| |
+	- [ ] i2c      | | | | |
+	- [ ] pwm      | | | | |
+	- [ ] spi      | | | | |
+	- [ ] timer    | | | | |
+	- [ ] uart     |v| | | |
+	- [ ] usb      | |x|x| |
+	- [ ] watchdog | | | | |

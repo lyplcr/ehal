@@ -1,12 +1,10 @@
 = Embedded Hardware Abstraction Layer.
 
-Is a interface for MCU peripherals and its implementation for multiple MCUs
-of multiple arquitectures. Along with libs for driver development and drivers
-implemented over the above stack.
+- Is a portable interface definition and implementation for MCU peripherals. (think CMSIS, StellarisWare and the like.)
+- It is crafted so that it will be very light on resources.
+- Pay for what you use. Disable any of the peripherals provided via config files.
 
-Check core/ehal.h for the peripheral interfaces.
-
-== Feature set (for now):
+== For feature matrix check feature-matrix.txt
 
 === Suport for MCUs families:
 
@@ -14,30 +12,9 @@ Check core/ehal.h for the peripheral interfaces.
 - avr/atmegaX8
 - arm/lm4f120h5qr
 
-.peripherals state:
-[width="50%"]
-:tabletags-red.bodydata: <td style="background-color:red;">|</td>
-:tabledef-default.red-style: tags="red"
-|================================
-|tbl     |atmegaX8|lm4f120|msp430
-
-|GPIO    |Y       |Y      |Y
-|CPU    r|P      r|P     r|P
-|SPI    r|N      r|N     r|N
-|I2C    r|N      r|N     r|N
-|DMA     |NA     r|N      |NA
-|CAN     |NA     r|N      |NA
-|UART   r|N      r|N     r|N
-|===============================
-
-* Y  - complete support.
-* P  - partial support.
-* N  - no support.
-* NA - not aplicable.
-
 === A set of drivers using the above mentioned APIs:
 
-==== In the plans
+==== In the plans are:
 
 - hd44780  (based display drivers.)
 - nrf24l01 (2.4GHz low power radio.)
