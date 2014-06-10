@@ -1,0 +1,9 @@
+* subarch x device:
+     o    msp430f21x1
+     o     atmegaX8 |
+     o    lm4f120 | |
+        ________|_|_|_
+  - [ ] cpu    |v|v|v|
+  - [ ] gpio   |v|v|v|
+  - [ ] uart   |v| | |
+  - [ ] spi    | | | |

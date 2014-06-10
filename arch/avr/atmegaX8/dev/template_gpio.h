@@ -1,7 +1,7 @@
 #ifndef GPIO!N_H
 #define GPIO!N_H
 #include <stdint.h>
-#include <lib/gpio_conf.h>
+#include <dev/conf_gpio.h>
 #include <core/interfaces/gpio.h>
 #include <avr/io.h>
 
@@ -67,7 +67,13 @@ static inline void gpio!N_clr_pullup(uint8_t pins)
 
 /* PCMSK!N - Pin Change Mask Register. (mask pin to trigger irq). */
 static inline void gpio!N_set_edge_irq(uint8_t rise, uint8_t fall)
-{	/* Only option is both edges (could be masked by software). */
+{
+	extern uint8_t gpio!N_rise__;
+	extern uint8_t gpio!N_fall__;
+
+	/* emulate it. IRQ on either, dispatch on match. */
+	gpio!N_rise__ = rise;
+	gpio!N_fall__ = fall;
 	PCMSK!N |= (rise | fall);
 }
 
