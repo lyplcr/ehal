@@ -1,4 +1,4 @@
-function mkgpio() {
+function gen_gpio() {
 	n=$1
 	t=$2
 	dir="$3/"
@@ -10,9 +10,9 @@ function mkgpio() {
 }
 
 # lm4f120
-mkgpio 0 A $1
-mkgpio 1 B $1
-mkgpio 2 C $1
-mkgpio 3 D $1
-mkgpio 4 E $1
-mkgpio 5 F $1
+gen_gpio 0 A $1
+gen_gpio 1 B $1
+gen_gpio 2 C $1
+gen_gpio 3 D $1
+gen_gpio 4 E $1
+gen_gpio 5 F $1

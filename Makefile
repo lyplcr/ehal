@@ -80,8 +80,7 @@ help:
 
 ## config. #####################################################################
 config:
-	@echo "generating default .config file."
-	@cp arch/$(arch)/$(sub)/config .config
+	@sh scripts/config.sh
 
 zconfig:
 	@sh scripts/zconfig.sh
