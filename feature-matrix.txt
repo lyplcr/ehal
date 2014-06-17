@@ -21,3 +21,7 @@
 	- [ ] uart     |v| | | |
 	- [ ] usb      | |x|x| |
 	- [ ] watchdog | | | | |
+
+-  v  - implemented.
+- ' ' - not implemented.
+-  x  - not aplicable. (MCU does not have the hardware to do it)
