@@ -1,13 +1,16 @@
 #ifndef UART_CONF_H
 #define UART_CONF_H
 
-#define _uart0_gpio gpio0
-#define uart0_tx_pin         0
-#define uart0_rx_pin         1
+#include <dev/gpio0.h>
+#define __uart0_gpio(fn) gpio0_ ## fn
+#define __uart0_pin_tx (P0)
+#define __uart0_pin_rx (P1)
 
-#define uart0_gpio_ctor      _uart0_gpio ## _ctor
-#define uart0_gpio_set_afsel _uart0_gpio ## _afsel
-#define uart0_gpio_set_pctl  _uart0_gpio ## _set_pctl
+#define __uart0_pin_rx      (P1)
+#define __uart0_pin_rx_af   ( 1)
+
+#define __uart0_pin_tx      (P0)
+#define __uart0_pin_tx_af   ( 1)
 
 static inline float uart_calc_baud(uint32_t freq, uint32_t baud)
 {

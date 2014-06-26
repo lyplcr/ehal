@@ -84,6 +84,7 @@ static inline void spi$0_dtor(void)
 {
 	if (spi$0_refcount == 0) {
 		HWREG(SYSCTL_RCGCSSI) &=~SYSCTL_RCGCSSI_R$0;
+		__ssi0_gpio(dtor)();
 	} else --spi$0_refcount;
 }
 

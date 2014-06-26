@@ -1,6 +1,13 @@
 #ifndef UART_INTERFACE_H
 #define UART_INTERFACE_H
+#include <stdbool.h>
 #include <stdint.h>
+
+struct uart_conf {
+	uint32_t baud;
+	bool par, stop;
+	uint8_t bits;
+};
 
 /** Universal Assynchronous Transmiter Receiver.
  *
