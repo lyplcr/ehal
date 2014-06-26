@@ -9,7 +9,7 @@ enum {
 #undef P
 };
 
-struct gpio_interface {
+typedef struct {
 	void (*ctor)(void);
 	void (*dtor)(void);
 
@@ -31,6 +31,6 @@ struct gpio_interface {
 	void (*set_pushpull) (gpio_mask pins);
 	void (*set_opendrain)(gpio_mask pins);
 	void (*set_edge_irq) (gpio_mask rise, gpio_mask fall);
-};
+} IGpio;
 
 #endif /* GPIO_H */

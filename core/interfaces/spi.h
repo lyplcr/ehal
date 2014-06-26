@@ -5,10 +5,8 @@
 /* ctor flags. */
 #define SPI_MSB        (0<<0)
 #define SPI_LSB        (1<<0)
-#define SPI_CPOL_LOW   (0<<1)
-#define SPI_CPOL       (1<<1)
-#define SPI_CPHA_1EDGE (1<<2)
-#define SPI_CPHA       (1<<2)
+#define SPI_CPOL       (1<<2)
+#define SPI_CPHA       (1<<1)
 
 /* Pass configuration as a tuple. */
 struct spi_conf {
