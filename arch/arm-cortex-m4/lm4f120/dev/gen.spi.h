@@ -1,5 +1,5 @@
-#ifndef SPI0_H
-#define SPI0_H
+#ifndef SPI$0_H
+#define SPI$0_H
 #include <hw/hw_memmap.h>
 #include <hw/hw_ssi.h>
 #include <hw/hw_sysctl.h>
@@ -11,26 +11,26 @@
 #include <core/interfaces/spi.h>
 #include <core/types.h>
 
-extern uint8_t spi0_refcount;
+extern uint8_t spi$0_refcount;
 
-static inline void spi0_set_conf(struct spi_conf *c)
+static inline void spi$0_set_conf(struct spi_conf *c)
 {
 	uint32_t cpu_freq = cpu0_freq();
 	int div = __ssi_find_div(cpu_freq, c->clk);
 	uint8_t scr = cpu_freq / (c->clk * div) -1;
 
 	// 1) Ensure SSE bit is cleared.
-	HWREG(SSI0_BASE + SSI_O_CR1) = 0;
+	HWREG(SSI$0_BASE + SSI_O_CR1) = 0;
 
 	// 3) clock source (using default: system clock)
-	//HWREG(SSI0_BASE + SSI_O_CC) = SSI_CC_CS_SYSPLL;
+	//HWREG(SSI$0_BASE + SSI_O_CC) = SSI_CC_CS_SYSPLL;
 
 	// 4) clock prescaler (SSICPSR)
-	HWREG(SSI0_BASE + SSI_O_CPSR) = div;
+	HWREG(SSI$0_BASE + SSI_O_CPSR) = div;
 
 	// 5) clock rate, pol, pha, bits,
 	//	and protocol mode(Freescale SPI, TI SSF, MICROWIRE) (ignore.)
-	HWREG(SSI0_BASE + SSI_O_CR0) =
+	HWREG(SSI$0_BASE + SSI_O_CR0) =
 		  ((scr     << SSI_CR0_SCR_S) & SSI_CR0_SCR_M)
 		| ((c->bits << SSI_CR0_DSS_S) & SSI_CR0_DSS_M)
 		| ((c->flags & SPI_CPHA) ? SSI_CR0_SPH : 0)
@@ -41,20 +41,20 @@ static inline void spi0_set_conf(struct spi_conf *c)
 	
 	// 2.a) master.
 	// 7) enable SSE bit.
-	HWREG(SSI0_BASE + SSI_O_CR1) =
+	HWREG(SSI$0_BASE + SSI_O_CR1) =
 		  (0 & SSI_CR1_MS)  // using master mode.
 		| (SSI_CR1_SSE)     // enable SSI
 		| (0 & SSI_CR1_LBM) // loop back mode.
 		;
 }
 
-static inline void spi0_ctor(uint32_t clk, uint8_t flags, uint8_t bits)
+static inline void spi$0_ctor(uint32_t clk, uint8_t flags, uint8_t bits)
 {
-	if (spi0_refcount++ != 0)
+	if (spi$0_refcount++ != 0)
 		return;
 
 	// 1) clock the SSI
-	HWREG(SYSCTL_RCGCSSI) |= SYSCTL_RCGCSSI_R0;
+	HWREG(SYSCTL_RCGCSSI) |= SYSCTL_RCGCSSI_R$0;
 
 	// 2) clock the corresponding GPIO
 	__ssi0_gpio(ctor)();
@@ -77,24 +77,24 @@ static inline void spi0_ctor(uint32_t clk, uint8_t flags, uint8_t bits)
 		.clk   = clk,
 		.flags = flags,
 		.bits  = bits};
-	spi0_set_conf(&c);
+	spi$0_set_conf(&c);
 }
 
-static inline void spi0_dtor(void)
+static inline void spi$0_dtor(void)
 {
-	if (spi0_refcount == 0) {
-		HWREG(SYSCTL_RCGCSSI) &=~SYSCTL_RCGCSSI_R0;
-	} else --spi0_refcount;
+	if (spi$0_refcount == 0) {
+		HWREG(SYSCTL_RCGCSSI) &=~SYSCTL_RCGCSSI_R$0;
+	} else --spi$0_refcount;
 }
 
-static inline uint8_t spi0_rw8(uint8_t w)
+static inline uint8_t spi$0_rw8(uint8_t w)
 {
 	// 1) start transmission.
-	HWREG(SSI0_BASE + SSI_O_DR) = w;
+	HWREG(SSI$0_BASE + SSI_O_DR) = w;
 	// 2) block until finished.
-	while (HWREG(SSI0_BASE + SSI_O_SR) & SSI_SR_BSY);
+	while (HWREG(SSI$0_BASE + SSI_O_SR) & SSI_SR_BSY);
 	// 3) return byte
-	return HWREG(SSI0_BASE + SSI_O_DR);
+	return HWREG(SSI$0_BASE + SSI_O_DR);
 }
 
 #endif /* SPI0_H */
