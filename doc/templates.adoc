@@ -1,0 +1,19 @@
+Templates are a symbol substitution system based on sed that is used to
+generate files with the same structure. The system will substitute occurences
+of $0 and $1 in the templates to some value based on the rules below.
+	o $0 is the device number:
+		$0 for gpio0.h is 0,
+		$0 for gpio1.h is 1.
+		and so on...
+	o $1 is a custom transformation defined via a parameter.
+			Gpios use this to map register names to device numbers.
+			Here is an example for gpio and the map of "BCD"
+		$1 for gpio0.h is B, same as gpio_remap[$0], where $0 = 0
+		$1 for gpio1.h is C, same as gpio_remap[$0], where $0 = 1
+		$1 for gpio2.h is D, same as gpio_remap[$0], where $0 = 2
+
+One of the missing features is generating output in the $(O) dir. This requires
+requires changes such as adding "$(obj)/%.o: $(obj)/%.c" rules and "-I" flags
+pointing into $(obj).
+
+For now generating to "$(src) is the only option available.
