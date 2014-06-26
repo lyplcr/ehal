@@ -7,7 +7,7 @@
 #define CPU_BOOT_WDT      2
 #define CPU_BOOT_HARD     3
 
-struct cpu_interface {
+typedef struct {
 	/** @brief Initializes the CPU/System
 	 *
 	 * initializes clocks, PLL, enable global IRQs
@@ -15,10 +15,7 @@ struct cpu_interface {
 	 * @note Must be initialized before any other of the system. */
 	void    (*ctor)        (void);
 
-	/** @brief Terminates the module causing the CPU to halt. */
-	void    (*dtor)        (void);
-
-	/** @brief Halt the CPU execution recoverable only by reset. */
+	/** @brief Halt the CPU execution, only recoverable by a reset. */
 	void    (*halt)        (void);
 
 	/** @brief Enter a critical section.
@@ -46,22 +43,22 @@ struct cpu_interface {
 	 * This function returns the expected running frequency based on the
 	 * crystall, PLL, or internal oscilator. It does not correct for
 	 * imprecise clock sources. */
-	uint32_t(*freq)        (void);
+	uint32_t (*freq)(void);
 
 	/** @brief Causes a reset on the CPU.
 	 *
 	 * This may not put peripherals in their default state. */
-	void    (*reset)       (void);
+	void (*reset)(void);
 
-	/** @brief Wait at least ms (micro seconds).
+	/** @brief Wait at least \b us (micro seconds).
 	 *
 	 * Convenient for driver implementations that require small delays.
 	 * This function waits at least the amount specified and does not
 	 * correct for interruption latencies. */
-	void    (*busywait_us) (uint16_t us); /**< at least this. */
+	void (*busywait_us)(uint16_t us); /**< at least this. */
 
 	/** @brief Retrieve the cause of boot. */
 	uint8_t (*boot_cause)  (void);
-};
+} ICpu;
 
 #endif /* CPU_H */
