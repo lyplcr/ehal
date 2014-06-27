@@ -54,6 +54,10 @@ $(src)/uart0.c: $(src)/uart0.h
 $(src)/uart1.c: $(src)/uart1.h
 $(src)/uart2.c: $(src)/uart2.h
 $(src)/uart3.c: $(src)/uart3.h
+$(src)/uart4.c: $(src)/uart4.h
+$(src)/uart5.c: $(src)/uart5.h
+$(src)/uart6.c: $(src)/uart6.h
+$(src)/uart7.c: $(src)/uart7.h
 
 $(src)/uart%.c: $(src)/gen.uart.c $(src)/conf_uart.h
 	@echo "GEN:  $@"

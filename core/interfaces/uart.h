@@ -1,19 +1,21 @@
-#ifndef UART_INTERFACE_H
-#define UART_INTERFACE_H
+#ifndef IUART_H
+#define IUART_H
 #include <stdbool.h>
 #include <stdint.h>
 
-struct uart_conf {
+typedef struct {
 	uint32_t baud;
-	bool par, stop;
-	uint8_t bits;
-};
+	uint8_t  bits,
+		 par;
+	bool     stop2;
+} CUart;
 
 /** Universal Assynchronous Transmiter Receiver.
  *
  * putchar to write bytes.
  * getchar to read bytes.
- */
+ *
+ * CTS/RTS is unimplemented! */
 typedef struct {
 	/** Initialize the uart and its pins for use.
 	 * @param baud - baud rate for the comunication.
@@ -25,14 +27,17 @@ typedef struct {
 	 * @code
 	 *	uart0_ctor(115200, 8, 'n', 1);
 	 * @endcode */
-	int  (*ctor)(	uint32_t freq,
+	void  (*ctor)(
 			uint32_t baud,
-			uint8_t bits,
-			uint8_t par,
-			uint8_t stop);
+			uint8_t  bits,
+			uint8_t  par,
+			bool     stop2);
 
 	/** Terminates the uart and set the GPIOs to their original value. */
 	void (*dtor)(void);
+
+	void (*set_conf)(CUart *c);
+	void (*get_conf)(CUart *c);
 
 	/* buffered non blocking API.
 	 *
@@ -63,4 +68,4 @@ void uart_tx_irq(volatile uint8_t *ch);
 #define UART_RX_EFRAME 2
 void uart_rx_irq(uint8_t ch, uint8_t err);
 
-#endif /* UART_INTERFACE_H */
+#endif /* IUART_H */
