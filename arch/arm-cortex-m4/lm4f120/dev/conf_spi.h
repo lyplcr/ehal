@@ -96,6 +96,13 @@ static inline int __ssi_find_div(uint32_t freq, uint32_t clk)
 	return -1; // no match, failed to generate valid clock
 }
 
+static inline uint32_t __ssi_find_clk(uint32_t freq, uint32_t scr, uint32_t div)
+{
+	// from datasheet:
+	// SSIClk = SysClk / (CPSDVSR * (1 + SCR))
+	return freq / (div * (scr + 1));
+}
+
 #ifndef SSI_CR0_DSS_S
 #define SSI_CR0_DSS_S (0)
 #endif

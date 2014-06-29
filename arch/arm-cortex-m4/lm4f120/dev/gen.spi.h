@@ -49,6 +49,23 @@ static inline void spi$0_set_conf(uint32_t cpu_freq, Cspi *c)
 		;
 }
 
+static inline void spi$0_get_conf(uint32_t cpu_freq, Cspi *c)
+{
+	uint32_t scr;
+	uint32_t div;
+	uint32_t flags = HWREG(SSI$0_BASE + SSI_O_CR0);
+
+	// 1) grab bits.
+	c->bits  = ((flags  & SSI_CR0_DSS_M) >> SSI_CR0_DSS_S) + 1;
+	// 2) grab porality & phase.
+	c->flags = ((flags & SSI_CR0_SPH) ? SPI_CPHA : 0)
+		|  ((flags & SSI_CR0_SPO) ? SPI_CPOL : 0);
+	// 3) grab clock.
+	scr = (flags >> SSI_CR0_SCR_S) & SSI_CR0_SCR_M;
+	div = HWREG(SSI$0_BASE + SSI_O_CPSR);
+	c->clk   = __ssi_find_clk(cpu_freq, scr, div);
+}
+
 static inline void spi$0_ctor(uint32_t cpu_freq, uint32_t clk,
 		uint8_t flags, uint8_t bits)
 {

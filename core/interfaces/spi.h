@@ -1,5 +1,5 @@
-#ifndef SPI_INTERFACE_H
-#define SPI_INTERFACE_H
+#ifndef SPI_H
+#define SPI_H
 #include <stdint.h>
 
 /* ctor flags. */
@@ -25,7 +25,7 @@ typedef struct {
 	void (*get_conf)(uint32_t cpu_freq, Cspi *);
 
 	/* blocking Read/Write operation. */
-	uint8_t (*rw8)(void);
+	uint8_t (*rw8)(uint8_t w);
 } Ispi;
 
-#endif /* SPI_INTERFACE_H */
+#endif /* SPI_H */

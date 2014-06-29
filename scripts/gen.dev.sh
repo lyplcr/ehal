@@ -9,17 +9,9 @@ function gen_one {
 	e=$3
 
 	from=$4
-	to=${5:-$4}
+	to=$5
 
 	cat '/dev/stdin' | sed -e "s/\$$from/$to/g"
-}
-
-function lm4f120_gpio {
-	echo $1 | tr "0123456789" "ABCDEFGHIJ"
-}
-
-function atmegaX8_gpio {
-	echo $1 | tr "0123456789" "BCDEFGHIJK"
 }
 
 function gen {
@@ -37,7 +29,8 @@ function gen {
 				gen_one $dir $dev $e 1 ${subs:$n0:1}
 			;;
 		*)	# run once
-			cat $template | gen_one $dir $dev $e 0
+			cat $template |\
+				gen_one $dir $dev $e 0 $n0
 			;;
 	esac
 }

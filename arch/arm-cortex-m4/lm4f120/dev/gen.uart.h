@@ -15,7 +15,7 @@
 
 extern uint8_t uart$0_refcount;
 
-static inline void uart$0_set_conf(CUart *c)
+static inline void uart$0_set_conf(uint32_t cpu_freq, Cuart *c)
 {
 	uint32_t bits;
 	switch (c->bits) {
@@ -38,7 +38,7 @@ static inline void uart$0_set_conf(CUart *c)
 	// 5) bits, parity, stop
 	HWREG(UART$0_BASE + UART_O_LCRH) =
 		  (bits & UART_LCRH_WLEN_M)
-		| (c->stop2 ? UART_LCRH_STP2 : 0);
+		| (c->stop ? UART_LCRH_STP2 : 0);
 
 	// 6) enable uart (both TX & RX).
 	HWREG(UART$0_BASE + UART_O_CTL) =
@@ -46,7 +46,7 @@ static inline void uart$0_set_conf(CUart *c)
 		| (UART_CTL_RXE | UART_CTL_TXE);
 }
 
-static inline void uart$0_get_conf(CUart *c)
+static inline void uart$0_get_conf(uint32_t cpu_freq, Cuart *c)
 {
 	// take a snapshot. (volatile would cost extra)
 	uint32_t flags = HWREG(UART$0_BASE + UART_O_LCRH); // flags.
@@ -59,17 +59,18 @@ static inline void uart$0_get_conf(CUart *c)
 	case UART_LCRH_WLEN_8: c->bits = 8; break;
 	}
 	c->baud  = cpu0_freq() / (16 * ibr);
-	c->stop2 = flags & UART_LCRH_STP2;
-	c->par  = ((flags & UART_LCRH_PEN) ?
+	c->stop = (flags == 2) & UART_LCRH_STP2;
+	c->par   =((flags & UART_LCRH_PEN) ?
 			(flags & UART_LCRH_EPS ? 'e' : 'o') : 'n');
 }
 
 /* breakpoint symbol: uart$0_ctor.isra.0 */
 static inline void uart$0_ctor(
+		uint32_t cpu_freq,
 		uint32_t baud,
 		uint8_t  bits,
 		uint8_t  par,
-		bool     stop2)
+		uint8_t  stop)
 {
 	if (uart$0_refcount++ != 0)
 		return;
@@ -92,13 +93,13 @@ static inline void uart$0_ctor(
 	X(tx);
 #undef X
 	// 5) configure UART regs.
-	CUart c = {
+	Cuart c = {
 		.baud  = baud,
 		.par   = par,
-		.stop2 = stop2,
+		.stop = stop,
 		.bits  = bits,
 	};
-	uart$0_set_conf(&c);
+	uart$0_set_conf(cpu_freq, &c);
 }
 
 static inline void uart$0_dtor(void)
@@ -109,7 +110,7 @@ static inline void uart$0_dtor(void)
 	} else --uart$0_refcount;
 }
 
-static inline uint16_t uart$0_getchar(void)
+static inline int uart$0_get(void)
 {
 	uint32_t rx;
 	while (HWREG(UART$0_BASE + UART_O_FR) & UART_FR_RXFE)
@@ -123,7 +124,7 @@ static inline uint16_t uart$0_getchar(void)
 	return rx & 0x00FF;
 }
 
-static inline uint16_t uart$0_putchar(uint16_t ch)
+static inline int uart$0_put(int ch)
 {
 	// 1) wait for it to be done.
 	while (HWREG(UART$0_BASE + UART_O_FR) & UART_FR_TXFF)

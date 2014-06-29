@@ -6,9 +6,9 @@
 typedef struct {
 	uint32_t baud;
 	uint8_t  bits,
-		 par;
-	bool     stop2;
-} CUart;
+		 par,
+		 stop;
+} Cuart;
 
 /** Universal Assynchronous Transmiter Receiver.
  *
@@ -31,13 +31,13 @@ typedef struct {
 			uint32_t baud,
 			uint8_t  bits,
 			uint8_t  par,
-			bool     stop2);
+			uint8_t  stop);
 
 	/** Terminates the uart and set the GPIOs to their original value. */
 	void (*dtor)(void);
 
-	void (*set_conf)(uint32_t cpu_freq, CUart *c);
-	void (*get_conf)(uint32_t cpu_freq, CUart *c);
+	void (*set_conf)(uint32_t cpu_freq, Cuart *c);
+	void (*get_conf)(uint32_t cpu_freq, Cuart *c);
 
 	/* buffered non blocking API.
 	 *
@@ -45,7 +45,7 @@ typedef struct {
 	 *
 	 * TX empty queue will schedule a job for user computation.
 	 * @note Implement me with cbuf.h */
-	int (*putchar)(int ch);
+	int (*put)(int ch);
 
 	/** Non blocking getchar.
 	 *
@@ -55,8 +55,8 @@ typedef struct {
 	 * @return EOF on failure.
 	 *
 	 * @note Implement me with cbuf.h */
-	int (*getchar)(void);
-} IUart;
+	int (*get)(void);
+} Iuart;
 
 /** Each uart (uart0, uart1, ...) IRQ is defined as a weak symbol with the below
  * interfaces. Both functions can be "overloaded" and will run in IRQ context,

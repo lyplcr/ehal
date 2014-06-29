@@ -1,0 +1,16 @@
+o Dependencies via parameters. eg. Receive cpu clock explicitly instead of
+calling cpu0_freq() from inside your function.
+
+	bad.	uart_cotr(          baud_rate, parity, stop_bits);
+	good.	uart_ctor(cpu_freq, baud_rate, parity, stop_bits);
+
+	This enables the use of diferent APIs, like the CMSIS clock setup with
+	eHAL uart.
+
+o Drivers dependencies via Interfaces. eg. Xmodem requires a putchar and a
+getchar functions.  This way diferent implementations of uart can be used with
+the same Xmodem driver.
+
+	void xmodem_ctor(Xmodem *self,
+			int (*getchar)(void),
+			int (*putchar)(int c));
