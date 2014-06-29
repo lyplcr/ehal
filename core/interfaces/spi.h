@@ -8,12 +8,11 @@
 #define SPI_CPOL       (1<<2)
 #define SPI_CPHA       (1<<1)
 
-/* Pass configuration as a tuple. */
-struct spi_conf {
+typedef struct {
 	uint32_t clk;
 	uint8_t flags;
 	uint8_t bits;
-};
+} Cspi;
 
 typedef struct {
 	void (*ctor)(uint32_t clk, uint8_t flags, uint8_t bits);
@@ -24,5 +23,6 @@ typedef struct {
 
 	/* blocking Read/Write operation. */
 	uint8_t (*rw8)(void);
-} ISPI;
+} Ispi;
+
 #endif /* SPI_INTERFACE_H */

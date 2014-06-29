@@ -31,8 +31,8 @@ static inline void spi$0_set_conf(struct spi_conf *c)
 	// 5) clock rate, pol, pha, bits,
 	//	and protocol mode(Freescale SPI, TI SSF, MICROWIRE) (ignore.)
 	HWREG(SSI$0_BASE + SSI_O_CR0) =
-		  ((scr     << SSI_CR0_SCR_S) & SSI_CR0_SCR_M)
-		| ((c->bits << SSI_CR0_DSS_S) & SSI_CR0_DSS_M)
+		  ((scr         << SSI_CR0_SCR_S) & SSI_CR0_SCR_M)
+		| (((c->bits-1) << SSI_CR0_DSS_S) & SSI_CR0_DSS_M)
 		| ((c->flags & SPI_CPHA) ? SSI_CR0_SPH : 0)
 		| ((c->flags & SPI_CPOL) ? SSI_CR0_SPO : 0)
 		;
@@ -57,16 +57,18 @@ static inline void spi$0_ctor(uint32_t clk, uint8_t flags, uint8_t bits)
 	HWREG(SYSCTL_RCGCSSI) |= SYSCTL_RCGCSSI_R$0;
 
 	// 2) clock the corresponding GPIO
-	__ssi0_gpio(ctor)();
+	__ssi$0_gpio(ctor)();
 
 	// 3) configure gpio as AF
-	__ssi0_gpio(set_afsel)( __ssi0_pin_clk
-			|	__ssi0_pin_fss
-			|	__ssi0_pin_tx
-			|	__ssi0_pin_rx);
+	__ssi$0_gpio(set_afsel)((1<<__ssi0_pin_clk)
+			|	(1<<__ssi0_pin_fss)
+			|	(1<<__ssi0_pin_tx)
+			|	(1<<__ssi0_pin_rx));
 
 	// 4) configure gpio Pin CTL
-#define X(p) __ssi0_gpio(set_pctl)(__ssi0_pin_ ## p, __ssi0_pin_## p ##_af);
+#define X(p_) __ssi$0_gpio(set_pctl)(\
+		gpio_pctl_mask(__ssi$0_pin_ ## p_), \
+		gpio_pctl_entry(__ssi$0_pin_## p_, __ssi$0_pin_## p_ ##_af))
 	X(clk);
 	X(fss);
 	X(tx);

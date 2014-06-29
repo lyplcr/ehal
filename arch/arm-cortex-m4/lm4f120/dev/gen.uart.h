@@ -81,10 +81,13 @@ static inline void uart$0_ctor(
 	__uart$0_gpio(ctor)();
 
 	// 3) configure gpio as AF
-	__uart$0_gpio(set_afsel)(__uart$0_pin_tx | __uart$0_pin_rx);
+	__uart$0_gpio(set_afsel)(
+			  (1 << __uart$0_pin_tx)
+			| (1 <<__uart$0_pin_rx));
 
 	// 4) configure gpio Pin CTL
-#define X(p) __uart$0_gpio(set_pctl)(__uart$0_pin_ ## p, __uart$0_pin_## p ##_af);
+#define X(p) __uart$0_gpio(set_pctl)(gpio_pctl_mask(__uart0_pin_ ## p), \
+		gpio_pctl_entry(__uart0_pin_## p, __uart0_pin_## p ##_af))
 	X(rx);
 	X(tx);
 #undef X
