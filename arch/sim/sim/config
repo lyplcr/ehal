@@ -1,0 +1,16 @@
+arch=${arch:-sim/}
+sub=${sub:-sim}
+mcu=${mcu:-sim}
+
+CONFIG_SRC       :=y
+CONFIG_TEST      :=
+CONFIG_TEST_JOBS :=
+CONFIG_TEST_BBUF :=
+CONFIG_TEST_CBUF :=
+
+CONFIG_CORE      :=
+CONFIG_CORE_JOBS :=
+CONFIG_CORE_BBUF :=
+CONFIG_CORE_CBUF :=
+
+CONFIG_DEV       :=
