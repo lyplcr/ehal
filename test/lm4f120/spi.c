@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	cpu0_ctor();
 	gpio5_ctor();
 	gpio5_set_out(LED_R);
-	spi0_ctor(cpu0_freq(), SPI_MSB | 0, 8);
+	spi0_ctor(cpu0_freq(), 8000000, SPI_MSB | 0, 8);
 
 	uint8_t r = spi0_rw8(0xAA);
 	if (r == 0xAA)

@@ -1,21 +1,22 @@
 #ifndef SPI$0_H
 #define SPI$0_H
+#include <stdint.h>
+
 #include <hw/hw_memmap.h>
 #include <hw/hw_ssi.h>
 #include <hw/hw_sysctl.h>
 
-#include <dev/nvic.h>
-#include <dev/cpu0.h>
+//#include <dev/nvic.h>
 #include <dev/conf_spi.h>
+#include __ssi$0_include
 
 #include <core/interfaces/spi.h>
 #include <core/types.h>
 
 extern uint8_t spi$0_refcount;
 
-static inline void spi$0_set_conf(struct spi_conf *c)
+static inline void spi$0_set_conf(uint32_t cpu_freq, Cspi *c)
 {
-	uint32_t cpu_freq = cpu0_freq();
 	int div = __ssi_find_div(cpu_freq, c->clk);
 	uint8_t scr = cpu_freq / (c->clk * div) -1;
 
@@ -48,7 +49,8 @@ static inline void spi$0_set_conf(struct spi_conf *c)
 		;
 }
 
-static inline void spi$0_ctor(uint32_t clk, uint8_t flags, uint8_t bits)
+static inline void spi$0_ctor(uint32_t cpu_freq, uint32_t clk,
+		uint8_t flags, uint8_t bits)
 {
 	if (spi$0_refcount++ != 0)
 		return;
@@ -62,8 +64,8 @@ static inline void spi$0_ctor(uint32_t clk, uint8_t flags, uint8_t bits)
 	// 3) configure gpio as AF
 	__ssi$0_gpio(set_afsel)((1<<__ssi0_pin_clk)
 			|	(1<<__ssi0_pin_fss)
-			|	(1<<__ssi0_pin_tx)
-			|	(1<<__ssi0_pin_rx));
+			|	(1<<__ssi0_pin_mosi)
+			|	(1<<__ssi0_pin_miso));
 
 	// 4) configure gpio Pin CTL
 #define X(p_) __ssi$0_gpio(set_pctl)(\
@@ -71,15 +73,15 @@ static inline void spi$0_ctor(uint32_t clk, uint8_t flags, uint8_t bits)
 		gpio_pctl_entry(__ssi$0_pin_## p_, __ssi$0_pin_## p_ ##_af))
 	X(clk);
 	X(fss);
-	X(tx);
-	X(rx);
+	X(mosi);
+	X(miso);
 #undef X
 	// 5) configure SSI regs.
-	struct spi_conf c = {
+	Cspi c = {
 		.clk   = clk,
 		.flags = flags,
 		.bits  = bits};
-	spi$0_set_conf(&c);
+	spi$0_set_conf(cpu_freq, &c);
 }
 
 static inline void spi$0_dtor(void)

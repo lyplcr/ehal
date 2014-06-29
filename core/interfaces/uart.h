@@ -25,9 +25,9 @@ typedef struct {
 	 *
 	 * An example for 115200 8N1:
 	 * @code
-	 *	uart0_ctor(115200, 8, 'n', 1);
+	 *	uart0_ctor(cpu0_freq(), 115200, 8, 'n', 1);
 	 * @endcode */
-	void  (*ctor)(
+	void  (*ctor)(  uint32_t cpu_freq,
 			uint32_t baud,
 			uint8_t  bits,
 			uint8_t  par,
@@ -36,8 +36,8 @@ typedef struct {
 	/** Terminates the uart and set the GPIOs to their original value. */
 	void (*dtor)(void);
 
-	void (*set_conf)(CUart *c);
-	void (*get_conf)(CUart *c);
+	void (*set_conf)(uint32_t cpu_freq, CUart *c);
+	void (*get_conf)(uint32_t cpu_freq, CUart *c);
 
 	/* buffered non blocking API.
 	 *

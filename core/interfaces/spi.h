@@ -15,11 +15,14 @@ typedef struct {
 } Cspi;
 
 typedef struct {
-	void (*ctor)(uint32_t clk, uint8_t flags, uint8_t bits);
+	void (*ctor)(uint32_t cpu_freq,
+			uint32_t clk,
+			uint8_t flags,
+			uint8_t bits);
 	void (*dtor)(void);
 
-	void (*set_conf)(struct spi_conf *);
-	void (*get_conf)(struct spi_conf *);
+	void (*set_conf)(uint32_t cpu_freq, Cspi *);
+	void (*get_conf)(uint32_t cpu_freq, Cspi *);
 
 	/* blocking Read/Write operation. */
 	uint8_t (*rw8)(void);
