@@ -13,24 +13,24 @@ typedef struct {
 	void (*ctor)(void);
 	void (*dtor)(void);
 
-	void (*set_in)       (gpio_mask pins);
-	void (*set_out)      (gpio_mask pins);
-	void (*set_dir)      (gpio_mask pins, gpio_mask in);
+	void (*set_in)       (uint8_t pins);
+	void (*set_out)      (uint8_t pins);
+	void (*set_dir)      (uint8_t pins, uint8_t in);
 
-	void (*read)         (gpio_mask pins);
-	void (*set)          (gpio_mask pins);
-	void (*clr)          (gpio_mask pins);
-	void (*set_to)       (gpio_mask pins, gpio_mask to);
+	uint8_t (*read)      (void);
+	void (*set)          (uint8_t pins);
+	void (*clr)          (uint8_t pins);
+	void (*set_to)       (uint8_t pins, uint8_t to);
 
-	void (*set_pullup)   (gpio_mask pins);
-	void (*clr_pullup)   (gpio_mask pins);
+	void (*set_pullup)   (uint8_t pins);
+	void (*clr_pullup)   (uint8_t pins);
 
-	void (*set_pulldown) (gpio_mask pins);
-	void (*clr_pulldown) (gpio_mask pins);
+	void (*set_pulldown) (uint8_t pins);
+	void (*clr_pulldown) (uint8_t pins);
 
-	void (*set_pushpull) (gpio_mask pins);
-	void (*set_opendrain)(gpio_mask pins);
-	void (*set_edge_irq) (gpio_mask rise, gpio_mask fall);
-} IGpio;
+	void (*set_pushpull) (uint8_t pins);
+	void (*set_opendrain)(uint8_t pins);
+	void (*set_edge_irq) (uint8_t rise, uint8_t fall);
+} Igpio;
 
 #endif /* GPIO_H */
