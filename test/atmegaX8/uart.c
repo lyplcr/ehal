@@ -4,16 +4,18 @@
 int main(int argc, char *argv[])
 {
 	cpu0_ctor();
-	uart0_ctor(9600, 8, 'n', 1);
-	uart0_putchar('o');
-	uart0_putchar('k');
+	uart0_ctor(cpu0_freq(), 19200, 8, 'n', 1);
+
+	uart0_put('o');
+	uart0_put('k');
 
 	for (;;) {
-		int ch = uart0_getchar();
-		if (ch == EOF) {
-		} else {
-			uart0_putchar(ch);
-		}
+		int ch = uart0_get();
+		if (ch == EOF)
+			continue;
+
+		uart0_put(':');
+		uart0_put(ch);
 	}
 	return 0;
 }

@@ -22,6 +22,7 @@ static inline void cpu0_ctor(void)
 	sei();
 }
 
+__attribute__((always_inline))
 static inline void cpu0_busywait_us(uint16_t us)
 {
 	_delay_us(us);
