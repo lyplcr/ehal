@@ -1,0 +1,1 @@
+obj-$(CONFIG_DRIVERS_HD44780) = hd44780/
