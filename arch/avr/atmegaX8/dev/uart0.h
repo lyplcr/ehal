@@ -2,9 +2,12 @@
 #define UART0_H
 #include <stdio.h>
 #include <avr/io.h>
+
+#include <core/bm.h>
+#include <core/ringbuf.h>
+
 #include <dev/cpu0.h>
 #include <dev/gpio2.h>
-#include <core/ringbuf.h>
 
 extern volatile RingBuf uart0_rx_rb;
 
@@ -26,8 +29,7 @@ static inline void uart0_ctor(uint32_t freq,
 static inline int uart0_put(int ch)
 {
 	/* wait for a slot in UDR. */
-	while (!(UCSR0A & (1<<UDRE0)))
-		;
+	bm_loop_until_clear(UCSR0A, 1<<UDRE0);
 	UDR0 = ch;
 	return ch;
 }

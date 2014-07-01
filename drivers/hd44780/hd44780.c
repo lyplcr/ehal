@@ -5,6 +5,8 @@
 
 #include "hd44780.h"
 #include "hd44780_reg.h"
+
+#include <core/bm.h>
 #include <core/interfaces/gpio.h>
 
 static void    put_nibble(uint8_t ch, const HD44780 *hd);
@@ -121,8 +123,7 @@ static uint8_t get_byte(const HD44780 *hd)
 
 static void put_cmd(uint8_t ch, const HD44780 *hd)
 {
-	while (get_cmd(hd) & CMD_FLAGS_BUSY)
-		;
+	bm_loop_until_clear(get_cmd(hd), CMD_FLAGS_BUSY);
 
 	hd->ctl->clr(hd->rs);
 	put_byte(ch, hd);
