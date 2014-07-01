@@ -1,5 +1,5 @@
-#ifndef CBUF_H
-#define CBUF_H
+#ifndef RINGBUF_H
+#define RINGBUF_H
 
 #include <assert.h>
 #include <stdbool.h>
@@ -60,4 +60,4 @@ static inline int ringbuf_get(volatile T *b)
 }
 
 #undef T
-#endif /* CBUF_H */
+#endif /* RINGBUF_H */

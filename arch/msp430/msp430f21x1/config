@@ -8,7 +8,7 @@ CONFIG_TEST_'$(sub)'_GPIO :=
 CONFIG_CORE             :=y
 CONFIG_CORE_JOBS        :=y
 CONFIG_CORE_BBUF        :=y
-CONFIG_CORE_CBUF        :=y
+CONFIG_CORE_RINGBUF     :=y
 
 CONFIG_SRC              :=y
 CONFIG_DEV              :=y

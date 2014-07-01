@@ -35,5 +35,5 @@ warning_3	:= $(warning_2) -Wall -pedantic
 
 
 # for local obj flags.
-CFLAGS += -Os -g -std=gnu99 $(warning_$(W)) -I. $(cflags-y)
+CFLAGS += -DNDEBUG -Os -g -std=gnu99 $(warning_$(W)) -I. $(cflags-y)
 LDLIBS += $(ldlibs-y)
