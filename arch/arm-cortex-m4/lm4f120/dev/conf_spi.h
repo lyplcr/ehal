@@ -17,7 +17,7 @@
 
 /* SPI1 ===================================================================== */
 #define __ssi1_0_include <dev/gpio5.h>
-#define __ssi1_0_gpio(fn) gpio0_ ## fn
+#define __ssi1_0_gpio(fn) gpio5_ ## fn
 
 #define __ssi1_0_pin_clk     2
 #define __ssi1_0_pin_clk_af  2
@@ -49,6 +49,8 @@
 #define __ssi1_pin_fss       __ssi1_## 0 ##_pin_fss
 #define __ssi1_pin_fss_af    __ssi1_## 0 ##_pin_fss_af
 #define __ssi1_pin_miso      __ssi1_## 0 ##_pin_miso
+#define __ssi1_pin_miso_af   __ssi1_## 0 ##_pin_miso_af
+#define __ssi1_pin_mosi      __ssi1_## 0 ##_pin_mosi
 #define __ssi1_pin_mosi_af   __ssi1_## 0 ##_pin_mosi_af
 
 /* SPI2 ===================================================================== */
@@ -66,7 +68,7 @@
 
 /* SPI3 ===================================================================== */
 #define __ssi3_include <dev/gpio3.h>
-#define __ssi3_gpio(fn) gpio0_ ## fn
+#define __ssi3_gpio(fn) gpio3_ ## fn
 
 #define __ssi3_pin_clk       0
 #define __ssi3_pin_clk_af    1
