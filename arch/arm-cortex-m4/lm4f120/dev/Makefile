@@ -8,6 +8,13 @@ obj-$(CONFIG_DEV_GPIO3)	+= gpio3.o
 obj-$(CONFIG_DEV_GPIO4)	+= gpio4.o
 obj-$(CONFIG_DEV_GPIO5)	+= gpio5.o
 
+obj-$(CONFIG_DEV_PWM0)	+= pwm0.o
+obj-$(CONFIG_DEV_PWM1)	+= pwm1.o
+obj-$(CONFIG_DEV_PWM2)	+= pwm2.o
+obj-$(CONFIG_DEV_PWM3)	+= pwm3.o
+obj-$(CONFIG_DEV_PWM4)	+= pwm4.o
+obj-$(CONFIG_DEV_PWM5)	+= pwm5.o
+
 obj-$(CONFIG_DEV_SPI0)	+= spi0.o
 obj-$(CONFIG_DEV_SPI1)	+= spi1.o
 obj-$(CONFIG_DEV_SPI2)	+= spi2.o
@@ -37,6 +44,20 @@ $(src)/gpio%.c: $(src)/gen.gpio.c $(src)/conf_gpio.h
 $(src)/gpio%.h: $(src)/gen.gpio.h $(src)/conf_gpio.h
 	@echo "GEN:  $@"
 	sh scripts/gen.dev.sh "$@" $(gpio_remap)
+# PWM =========================================================================
+$(src)/pwm0.c: $(src)/pwm0.h
+$(src)/pwm1.c: $(src)/pwm1.h
+$(src)/pwm2.c: $(src)/pwm2.h
+$(src)/pwm3.c: $(src)/pwm3.h
+$(src)/pwm4.c: $(src)/pwm4.h
+$(src)/pwm5.c: $(src)/pwm5.h
+
+$(src)/pwm%.c: $(src)/gen.pwm.c $(src)/conf_pwm.h
+	@echo "GEN:  $@"
+	sh scripts/gen.dev.sh "$@"
+$(src)/pwm%.h: $(src)/gen.pwm.h $(src)/conf_pwm.h
+	@echo "GEN:  $@"
+	sh scripts/gen.dev.sh "$@"
 # SPI =========================================================================
 $(src)/spi0.c: $(src)/spi0.h
 $(src)/spi1.c: $(src)/spi1.h
