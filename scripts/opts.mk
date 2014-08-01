@@ -1,7 +1,7 @@
-ifeq ($(CONFIG),)
-CONFIG=.config
+ifeq ($(C),)
+C=.config
 endif
--include $(CONFIG)
+-include $(C)
 
 ifeq ($(W),)
 W=3
